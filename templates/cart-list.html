@@ -1,0 +1,56 @@
+<div class="order-summary clearfix">
+							<div class="section-title">
+								<h3 class="title">Sifariş detalları</h3>
+							</div>
+
+							<table class="shopping-cart-table table">
+								<thead>
+									<tr>
+										<th>Məhsul</th>
+										<th></th>
+										<th class="text-center">Qiymət</th>
+										<th class="text-center">Say</th>
+										<th class="text-center">Toplam</th>
+										<th class="text-right"></th>
+									</tr>
+								</thead>
+								{% for product_id, item in cart_data.items %}
+								<tbody>
+									<tr>
+										<td class="thumb"><img src="/media/{{item.image}}" alt=""></td>
+										<td class="details">
+											<a href="/products/{{item.slug}}/{{product_id}}" target="_blank">{{item.name}}</a>
+											<ul>
+												<li><span>Brend: {{item.brand}}</span></li>
+											</ul>
+										</td>
+										<td class="price text-center"><strong>{{item.price|floatformat:2}} ₼</strong><br>{% if product_id in products %}<del class="font-weak"><small>{{item.sale|floatformat:2}} ₼{% endif %}</small></del></td>
+										<td class="qty text-center"><input class="input product-qty-{{product_id}}" type="number" value="{{item.qty}}"><button class="main-btn icon-btn update-item" data-item="{{product_id}}" style="margin-left: 10px;"><i class="fa fa-refresh"></i></button></td>
+										{% for key,value in total_price.items %}
+											{% if key == item.id %}
+												<td class="total text-center"><strong class="primary-color">{{ value|floatformat:2 }} ₼</strong></td>
+											{% endif %}
+										{% endfor %}
+										<td class="text-right"><button class="main-btn icon-btn delete-item" data-item="{{product_id}}"><i class="fa fa-close"></i></button></td>
+									</tr>
+									{% endfor %}
+								</tbody>
+								<tfoot>
+									<tr>
+										<th class="empty" colspan="3"></th>
+										<th>ÇATDIRILMA</th>
+										<td colspan="2">Pulsuz</td>
+									</tr>
+									<tr>
+										<th class="empty" colspan="3"></th>
+										<th>TOPLAM</th>
+										<th colspan="2" class="total">{{subtotal|floatformat:2}} ₼</th>
+									</tr>
+								</tfoot>
+							</table>
+							{% if totalitems %}
+							<div class="pull-right">
+								<a href="{% url 'checkout' %}"><button class="primary-btn">ÖDƏNİŞ ET</button></a>
+							</div>
+							{% endif %}
+						</div>

@@ -1,0 +1,282 @@
+{% extends 'partials/_base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+	
+	
+	* {
+		box-sizing: border-box;
+	}
+	
+	.row {
+		display: -ms-flexbox; /* IE10 */
+		display: flex;
+		-ms-flex-wrap: wrap; /* IE10 */
+		flex-wrap: wrap;
+		margin: 0 -16px;
+	}
+	
+	.col-25 {
+		-ms-flex: 25%; /* IE10 */
+		flex: 25%;
+	}
+	
+	.col-50 {
+		-ms-flex: 50%; /* IE10 */
+		flex: 50%;
+	}
+	
+	.col-75 {
+		-ms-flex: 75%; /* IE10 */
+		flex: 75%;
+	}
+	
+	.col-25,
+	.col-50,
+	.col-75 {
+		padding: 0 16px;
+	}
+	
+	
+	
+	input[type=text] {
+		width: 100%;
+		margin-bottom: 20px;
+		padding: 12px;
+		border: 1px solid #ccc;
+		border-radius: 3px;
+	}
+	
+	label {
+		margin-bottom: 10px;
+		display: block;
+	}
+	
+	.icon-container {
+		margin-bottom: 20px;
+		padding: 7px 0;
+		font-size: 24px;
+	}
+	
+	.btn {
+		background-color: #04AA6D;
+		color: white;
+		padding: 12px;
+		margin: 10px 0;
+		border: none;
+		width: 100%;
+		border-radius: 3px;
+		cursor: pointer;
+		font-size: 17px;
+	}
+	
+	.btn:hover {
+		background-color: #45a049;
+	}
+	
+	
+	span.price {
+		float: right;
+		color: grey;
+	}
+	
+	/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other (also change the direction - make the "cart" column go on top) */
+	@media (max-width: 800px) {
+		.row {
+			flex-direction: column-reverse;
+		}
+		.col-25 {
+			margin-bottom: 20px;
+		}
+	}
+	</style>
+
+<!-- BREADCRUMB -->
+	<div id="breadcrumb">
+		<div class="container">
+			<ul class="breadcrumb">
+				<li><a href="#">Ana Səhifə</a></li>
+				<li class="active">Ödəniş</li>
+			</ul>
+		</div>
+	</div>
+	<!-- /BREADCRUMB -->
+
+	<!-- section -->
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+				<form id="checkout-form" class="clearfix" method="POST" action="/payment/">
+					{% csrf_token %}
+					<div class="col-md-6">
+						<div class="billing-details">
+							<div class="col-50">
+								<h3>Ödəniş et</h3>
+								<label for="fname">Qəbul edilən kartlar</label>
+								<div class="icon-container">
+									<i class="fa fa-cc-visa" style="color:navy;"></i>
+									<i class="fa fa-cc-amex" style="color:blue;"></i>
+									<i class="fa fa-cc-mastercard" style="color:red;"></i>
+									<i class="fa fa-cc-discover" style="color:orange;"></i>
+								</div>
+								<label for="cname">Kart üzərindəki ad</label>
+								<input type="text" id="cname" name="cardname" placeholder="John More Doe">
+								<label for="ccnum">Kart nömrəsi</label>
+								<input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444">
+								<label for="expmonth">Ay</label>
+								<input type="text" id="expmonth" name="expmonth" placeholder="September">
+								<div class="row">
+									<div class="col-50">
+										<label for="expyear">İl</label>
+										<input type="text" id="expyear" name="expyear" placeholder="2018">
+									</div>
+									<div class="col-50">
+										<label for="cvv">CVV</label>
+										<input type="text" id="cvv" name="cvv" placeholder="352">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="shiping-methods">
+							<div class="section-title">
+								<h4 class="title">Çatdırılma növü</h4>
+							</div>
+							<div class="input-checkbox">
+								<input type="radio" name="shipping" id="shipping-1" checked>
+								<label for="shipping-1">Pulsuz Çatdırılma -  0.00 ₼</label>
+								<div class="caption">
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+										<p>
+								</div>
+							</div>
+							<div class="input-checkbox">
+								<input type="radio" name="shipping" id="shipping-2">
+								<label for="shipping-2">Standart - 4.00 ₼</label>
+								<div class="caption">
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+										<p>
+								</div>
+							</div>
+						</div>
+
+						<div class="payments-methods">
+							<div class="section-title">
+								<h4 class="title">Ödəniş növü</h4>
+							</div>
+							<div class="input-checkbox">
+								<input type="radio" name="payments" id="payments-1" checked>
+								<label for="payments-1">Bank kartı</label>
+								<div class="caption">
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+										<p>
+								</div>
+							</div>
+							<div class="input-checkbox">
+								<input type="radio" name="payments" id="payments-2">
+								<label for="payments-2">Cheque Payment</label>
+								<div class="caption">
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+										<p>
+								</div>
+							</div>
+							<div class="input-checkbox">
+								<input type="radio" name="payments" id="payments-3">
+								<label for="payments-3">Paypal System</label>
+								<div class="caption">
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+										<p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-50">
+							<h3>Ünvan bilgiləri</h3>
+							<input type="hidden" id="fname" name="fullname" placeholder="John M. Doe">
+							<input type="hidden" id="email" name="email" placeholder="john@example.com">
+							<label for="adr"><i class="fa fa-address-card-o"></i> Ünvan</label>
+							<input type="text" id="adr" name="address" placeholder="542 W. 15th Street">
+							<label for="city"><i class="fa fa-institution"></i> Şəhər</label>
+							<input type="text" id="city" name="city" placeholder="Bakı">
+	
+							<div class="row">
+								<div class="col-50">
+									<label for="state">Ölkə</label>
+									<input type="text" id="state" name="state" placeholder="NY">
+								</div>
+								<div class="col-50">
+									<label for="zip">Zip</label>
+									<input type="text" id="zip" name="zip" placeholder="10001">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="order-summary clearfix">
+							<div class="section-title">
+								<h3 class="title">Ödəniş et</h3>
+							</div>
+							<table class="shopping-cart-table table">
+								<thead>
+									<tr>
+										<th>Məhsul</th>
+										<th></th>
+										<th class="text-center">Qiymət</th>
+										<th class="text-center">Say</th>
+										<th class="text-center">Toplam</th>
+										<th class="text-right"></th>
+									</tr>
+								</thead>
+								{% for product_id, item in cart_data.items %}
+								<tbody>
+									<tr>
+										<td class="thumb"><img src="/media/{{item.image}}" alt=""></td>
+										<td class="details">
+											<a href="/products/{{item.slug}}/{{product_id}}" target="_blank">{{item.name}}</a>
+											<ul>
+												<li><span>Brend: {{item.brand}}</span></li>
+											</ul>
+										</td>
+										<td class="price text-center"><strong>{{item.price|floatformat:2}} ₼</strong><br>{% if product_id in products %}<del class="font-weak"><small>{{item.sale|floatformat:2}} ₼{% endif %}</small></del></td>
+										<td class="qty text-center"><input class="input product-qty-{{product_id}}" type="number" value="{{item.qty}}"></td>
+										{% for key,value in total_price.items %}
+											{% if key == item.id %}
+												<td class="total text-center"><strong class="primary-color">{{ value|floatformat:2 }} ₼</strong></td>
+											{% endif %}
+										{% endfor %}
+										<!--<td class="text-right"><button class="main-btn icon-btn delete-item" data-item="{{product_id}}"><i class="fa fa-close"></i></button></td>-->
+									</tr>
+									{% endfor %}
+								</tbody>
+								<tfoot>
+									<tr>
+										<th class="empty" colspan="3"></th>
+										<th>ÇATDIRILMA</th>
+										<td colspan="2">Pulsuz</td>
+									</tr>
+									<tr>
+										<th class="empty" colspan="3"></th>
+										<th>TOPLAM</th>
+										<th colspan="2" class="total">{{subtotal|floatformat:2}} ₼</th>
+									</tr>
+								</tfoot>
+							</table>
+							<div class="pull-right">
+								<a href="{% url 'payment' %}"><button class="primary-btn" type="submit">Ödənişi tamamla</button></a>
+							</div>
+						</div>
+				</div>
+				</form>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /section -->
+
+{% endblock %}

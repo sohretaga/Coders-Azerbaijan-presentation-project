@@ -1,0 +1,83 @@
+{% extends 'partials/_base.html' %}
+{% load static %}
+
+
+{% block content %}
+	<!-- BREADCRUMB -->
+	<div id="breadcrumb">
+		<div class="container">
+			<ul class="breadcrumb">
+				<li><a href="{% url 'index' %}">Ana Səhifə</a></li>
+                <li class="active">İstəklər</li>
+			</ul>
+		</div>
+	</div>
+	<!-- /BREADCRUMB -->
+
+
+    {% if messages %}
+    {% for message in messages %}
+        <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %} style="text-align: center;">{{ message }}</div>
+    {% endfor %}
+	{% endif %}
+
+<!--SHOP CART-->
+<div class="col-md-12" id="cartlist">
+						<div class="order-summary clearfix">
+							<div class="section-title">
+								<h3 class="title">İstəklər</h3>
+							</div>
+							<table class="shopping-cart-table table">
+								<thead>
+									<tr>
+										<th>Məhsul</th>
+										<th></th>
+										<th class="text-center">Qiymət</th>
+										<!--<th class="text-center">Say</th>-->
+										<!--<th class="text-center">Toplam</th>-->
+										<th class="text-right"></th>
+									</tr>
+								</thead>
+								{% for product_id, item in wish_data.items %}
+								<tbody>
+									<tr>
+										<td class="thumb"><img src="/media/{{item.image}}" alt=""></td>
+										<td class="details">
+											<a href="/products/{{item.slug}}/{{product_id}}" target="_blank">{{item.name}}</a>
+											<ul>
+												<li><span>Brend: {{item.brand}}</span></li>
+											</ul>
+										</td>
+										<td class="price text-center"><strong>{{item.price|floatformat:2}} ₼</strong><br>{% if product_id in products %}<del class="font-weak"><small>{{item.sale|floatformat:2}} ₼{% endif %}</small></del></td>
+										<td class="text-right"><button class="primary-btn add-to-cart" type="button" id="addToCartBtn" data-index="{{product.id}}"><i class="fa fa-shopping-cart"></i> Səbətə at</button>
+                                            <div class="pull-right"></td>
+										<td class="text-right"><button class="main-btn icon-btn delete-item" data-item="{{product_id}}"><i class="fa fa-close"></i></button></td>
+									</tr>
+									{% endfor %}
+								</tbody>
+								<tfoot>
+									<tr>
+										<th class="empty" colspan="3"></th>
+										<th>TOPLAM</th>
+										<th colspan="2" class="total">{{subtotal|floatformat:2}} ₼</th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+
+</div>
+<!--/SHOP CART-->
+	<!-- section -->
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /section -->
+
+{% endblock %}

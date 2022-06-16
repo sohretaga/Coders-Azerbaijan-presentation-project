@@ -1,0 +1,63 @@
+{% extends 'partials/_base.html' %}
+{% load static %}
+
+
+{% block content %}
+	<!-- BREADCRUMB -->
+	<div id="breadcrumb">
+		<div class="container">
+			<ul class="breadcrumb">
+				<li><a href="{% url 'index' %}">Ana Səhifə</a></li>
+                <li class="active">Giriş Et</li>
+			</ul>
+		</div>
+	</div>
+	<!-- /BREADCRUMB -->
+
+
+    {% if messages %}
+    {% for message in messages %}
+        <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %} style="text-align: center;">{{ message }}</div>
+    {% endfor %}
+	{% endif %}
+
+<!--LOGIN FORM-->
+
+<div style="width: 500px;" class="container">
+            <form class="form-horizontal" role="form" method="post">
+                {% csrf_token %}
+				<br>
+                <div class="form-group">
+                    <label for="username" class="col-sm-3 control-label">İstifadəçi adı</label>
+                    <div class="col-sm-9">
+                        <input name="username" type="text" id="username" placeholder="Username" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="col-sm-3 control-label">Şifrə</label>
+                    <div class="col-sm-9">
+                        <input name="password" type="password" id="password" placeholder="Password" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-9 col-sm-offset-3">
+                        <button type="submit" class="btn btn-primary btn-block">Giriş Et</button>
+                    </div>
+                </div>
+            </form> <!-- /form -->
+        </div> <!-- ./container -->
+<!--/LOGIN FORM-->
+	<!-- section -->
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /section -->
+
+{% endblock %}

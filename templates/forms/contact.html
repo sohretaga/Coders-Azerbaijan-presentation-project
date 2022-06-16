@@ -1,0 +1,59 @@
+{% extends 'partials/_base.html' %}
+{% load static %}
+
+
+{% block content %}
+	<!-- BREADCRUMB -->
+	<div id="breadcrumb">
+		<div class="container">
+			<ul class="breadcrumb">
+				<li><a href="{% url 'index' %}">Ana Səhifə</a></li>
+                <li class="active">Əlaqə</li>
+			</ul>
+		</div>
+	</div>
+	<!-- /BREADCRUMB -->
+
+
+    {% if messages %}
+    {% for message in messages %}
+        <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %} style="text-align: center;">{{ message }}</div>
+    {% endfor %}
+	{% endif %}
+
+<!--CONTACT FORM-->
+<div  style="text-align: center; margin-top: 50px; width: 600px; margin-left: 200px; float: left;">
+    <h4 class="text-uppercase">Bizimlə Əlaqəyə Keç</h4>
+    <p>Təklif vəya iradınız var? Bizə bildirin.</p>
+    <form class="review-form" method="post" action="/contact/">
+        {% csrf_token %}
+        <div class="form-group">
+            <input name="full_name" class="input" type="text" placeholder="Adınız" />
+        </div>
+        <div class="form-group">
+            <input name="email" class="input" type="email" placeholder="Elektron Poçtunuz" />
+        </div>
+        <div class="form-group">
+            <textarea name="message" class="input" placeholder="Təklif vəya iradınızı yazın..."></textarea>
+        </div>
+
+        <button type="submit" class="primary-btn">Göndər</button>
+    </form>
+
+</div>
+<img src="{% static 'img/contact.jpg' %}" style="margin-left: 80px; margin-top: 50px;">
+<!--/CONTACT FORM-->
+	<!-- section -->
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /section -->
+
+{% endblock %}

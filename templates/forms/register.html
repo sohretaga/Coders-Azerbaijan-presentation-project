@@ -1,0 +1,109 @@
+{% extends 'partials/_base.html' %}
+{% load static %}
+
+
+{% block content %}
+	<!-- BREADCRUMB -->
+	<div id="breadcrumb">
+		<div class="container">
+			<ul class="breadcrumb">
+				<li><a href="{% url 'index' %}">Ana Səhifə</a></li>
+				<li class="active">Qeydiyyat</li>
+			</ul>
+		</div>
+	</div>
+	<!-- /BREADCRUMB -->
+    {% if messages %}
+    {% for message in messages %}
+        <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %} style="text-align: center;">{{ message }}</div>
+    {% endfor %}
+	{% endif %}
+
+<!--REGISTER FORM-->
+<div style="width: 500px;" class="container">
+            <form class="form-horizontal" role="form" method="post" action="/register/">
+                {% csrf_token %}
+				<br>
+                <div class="form-group">
+                    <label for="firstName" class="col-sm-3 control-label">Ad</label>
+                    <div class="col-sm-9">
+                        <input name="first_name" type="text" id="firstName" placeholder="First Name" class="form-control" autofocus>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label for="lastName" class="col-sm-3 control-label">Soyad</label>
+                    <div class="col-sm-9">
+                        <input name="last_name" type="text" id="lastName" placeholder="Last Name" class="form-control" autofocus>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="username" class="col-sm-3 control-label">İstifadəçi adı</label>
+                    <div class="col-sm-9">
+                        <input name="username" type="text" id="username" placeholder="Username" class="form-control" autofocus>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="col-sm-3 control-label">Email</label>
+                    <div class="col-sm-9">
+                        <input name="email" type="email" id="email" placeholder="Email" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="col-sm-3 control-label">Şifrə</label>
+                    <div class="col-sm-9">
+                        <input name="password" type="password" id="password" placeholder="Password" class="form-control">
+                    </div>
+                </div>
+                <!--
+                <div class="form-group">
+                    <label for="birthDate" class="col-sm-3 control-label">Doğum tarixi</label>
+                    <div class="col-sm-9">
+                        <input type="date" id="birthDate" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="country" class="col-sm-3 control-label">Bölgə</label>
+                    <div class="col-sm-9">
+                        <select id="country" class="form-control">
+                            <option>Ağdam</option>
+                            <option>Ağcabədi</option>
+                            <option>Biləsuvar</option>
+                            <option>Gəncə</option>
+                            <option>Lənkaran</option>
+                            <option>Yevlax</option>
+                            <option>Mingəçevir</option>
+                            <option>Goranboy</option>
+                        </select>
+                    </div>
+                </div> -->
+                <div class="form-group">
+                    <div class="col-sm-9 col-sm-offset-3">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox">I accept <a href="#">terms</a>
+                            </label>
+                        </div>
+                    </div>
+                </div> <!-- /.form-group -->
+                <div class="form-group">
+                    <div class="col-sm-9 col-sm-offset-3">
+                        <button type="submit" class="btn btn-primary btn-block">Qeydiyyatdan keç</button>
+                    </div>
+                </div>
+            </form> <!-- /form -->
+        </div> <!-- ./container -->
+<!--/REGISTER FORM-->
+	<!-- section -->
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /section -->
+
+{% endblock %}

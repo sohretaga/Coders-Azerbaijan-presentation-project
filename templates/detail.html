@@ -1,0 +1,291 @@
+{% extends 'partials/_base.html' %}
+{% load static %}
+
+{% block content %}
+	<!-- BREADCRUMB -->
+	<div id="breadcrumb">
+		<div class="container">
+			<ul class="breadcrumb">
+				<li><a href="#">Ana Səhifə</a></li>
+				<li><a href="#">Məhsullar</a></li>
+				<li><a href="/products/{{product.category.slug}}">{{product.category.parent}}</a></li>
+				<li class="active">{{product.name}}</li>
+			</ul>
+		</div>
+	</div>
+	<!-- /BREADCRUMB -->
+	{% if messages %}
+    {% for message in messages %}
+        <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %} style="text-align: center;">{{ message }}</div>
+    {% endfor %}
+	{% endif %}
+
+	<!-- section -->
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+				<!--  Product Details -->
+				<div class="product product-details clearfix">
+					<div class="col-md-6">
+						<div id="product-main-view">
+							<div class="product-view">
+								<img src="{% if product.main_image %}{{product.main_image.url}}{% endif %}" alt="">
+							</div>
+
+							{% for image in images %}
+							<div class="product-view">
+								<img src="{% if image.image %}{{image.image.url}}{% endif %}" alt="">
+							</div>
+							{% endfor %}
+						</div>
+						{% if images %}
+						<div id="product-view">
+							<div class="product-view">
+								<img src="{% if product.main_image %}{{product.main_image.url}}{% endif %}" alt="">
+							</div>
+
+							{% for image in images %}
+							<div class="product-view">
+								<img src="{% if image.image %}{{image.image.url}}{% endif %}" alt="">
+							</div>
+							{% endfor %}
+						</div>
+						{% endif %}
+					</div>
+					<div class="col-md-6">
+						<div class="product-body">
+							<div class="product-label">
+								<span>New</span>
+								{% if product.sale %}
+								<span class="sale">-{{product.sale}}%</span>
+								{% endif %}
+								{% if product.used %}
+								<span class="sale">İkinci Əl</span>
+								{% endif %}
+							</div>
+							<h2 class="product-name">{{product.name}}</h2>
+							{% if product.sale %}
+							<h3 class="product-price">{{product.discount|floatformat:2}} ₼ <del class="product-old-price">{{product.price|floatformat:2}} ₼</del></h3>
+							{% else %}
+							<h3 class="product-price">{{product.price|floatformat:2}} ₼</h3>
+							{% endif %}
+							<div>
+								<div class="product-rating">
+									<i class="fa fa-star{% if product_rating < 1 %}-o empty{% endif %}"></i>
+									<i class="fa fa-star{% if product_rating < 2 %}-o empty{% endif %}"></i>
+									<i class="fa fa-star{% if product_rating < 3 %}-o empty{% endif %}"></i>
+									<i class="fa fa-star{% if product_rating < 4 %}-o empty{% endif %}"></i>
+									<i class="fa fa-star{% if product_rating < 5 %}-o empty{% endif %}"></i>
+								</div>
+								<a href="#">Rəylər ({{count}})</a>
+							</div>
+							{% if product.stock %}
+							<p style="color: green"><strong>Mövcudluq:</strong> Stokda var</p>
+							{% else %}
+							<p style="color: red"><strong>Mövcudluq:</strong> Stokda yoxdur</p>
+							{% endif %}
+							{% if product.used %}
+							{% for user in users %}
+							{% if user.id == product.user_id %}
+							<p><strong>Brend:</strong> {{user.get_full_name}}</p>
+							{% endif %}
+							{% endfor %}
+							{% else %}
+							<p><strong>Brend:</strong> {{product.brand}}</p>
+							{% endif %}
+							<p>{{product.description}}</p>
+							<hr>
+
+							<div class="product-btns">
+								<div class="qty-input">
+									<span class="text-uppercase">Ədəd: </span>
+									<input class="input" type="number" value="1" id="productQty-{{product.id}}">
+								</div>
+								<input type="hidden" id="productId-{{product.id}}" value="{{product.id}}">
+								<input type="hidden" id="productImage-{{product.id}}" value="{{product.main_image}}">
+								<input type="hidden" id="productSlug-{{product.id}}" value="{{product.category.slug}}">
+								<input type="hidden" id="productName-{{product.id}}" value="{{product.name}}">
+								<input type="hidden" id="productBrand-{{product.id}}" value="{{product.brand}}">
+								<input type="hidden" id="productSale-{{product.id}}" value="{{product.price}}">
+								{% if product.sale %}
+									<input type="hidden" id="productPrice-{{product.id}}" value="{{product.discount}}">
+								{% else %}
+									<input type="hidden" id="productPrice-{{product.id}}" value="{{product.price}}">
+								{% endif %}
+								<button class="primary-btn add-to-cart" type="button" id="addToCartBtn" data-index="{{product.id}}"><i class="fa fa-shopping-cart"></i> Səbətə at</button>
+								<div class="pull-right">
+									<button class="main-btn icon-btn add-to-wishlist" id="addToWishlistBtn" data-index="{{product.id}}"><i class="fa fa-heart"></i></button>
+									<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
+									<button class="main-btn icon-btn"><i class="fa fa-share-alt"></i></button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="product-tab">
+							<ul class="tab-nav">
+								<li class="active"><a data-toggle="tab" href="#tab3">Rəylər ({{count}})</a></li>
+								<li><a data-toggle="tab" href="#tab2">Detallar</a></li>
+								<li><a data-toggle="tab" href="#tab1">Qısa Açıqlama</a></li>
+							</ul>
+							<div class="tab-content">
+								<div id="tab1" class="tab-pane fade in">
+									<p>{{product.description}}</p>
+								</div>
+								<div id="tab2" class="tab-pane fade in">
+									<p>{{product.detail}}</p>
+								</div>
+								<div id="tab3" class="tab-pane fade in active">
+
+									<div class="row">
+										<div class="col-md-6">
+											<div class="product-reviews">
+												{% for comment in comments %}
+												<div class="single-review">
+													<div class="review-heading">
+														<div><a href="#"><i class="fa fa-user-o"></i> {{comment.user.get_full_name}}</a></div>
+														<div><a href="#"><i class="fa fa-clock-o"></i> {{comment.date_created}}</a></div>
+														<div class="review-rating pull-right">
+															<i class="fa fa-star{% if comment.rating < 1 %}-o empty{% endif %}"></i>
+															<i class="fa fa-star{% if comment.rating < 2 %}-o empty{% endif %}"></i>
+															<i class="fa fa-star{% if comment.rating < 3 %}-o empty{% endif %}"></i>
+															<i class="fa fa-star{% if comment.rating < 4 %}-o empty{% endif %}"></i>
+															<i class="fa fa-star{% if comment.rating < 5 %}-o empty{% endif %}"></i>
+														</div>
+													</div>
+													<div class="review-body">
+														{% if comment.good_sides %}
+															<h5 style="color: green;">Müsbət tərəfləri</h5>
+															<p style="margin-left: 10px;">{{comment.good_sides}}</p>
+														{% endif %}
+														{% if comment.bad_sides %}
+															<h5 style="color: red;">Mənfi tərəfləri</h5>
+															<p style="margin-left: 10px">{{comment.bad_sides}}</p>
+														{% endif %}
+														{% if comment.comment %}
+															<h5>Rəy</h5>
+															<p style="margin-left: 10px">{{comment.comment}}</p>
+														{% endif %}
+														<hr>
+													</div>
+												</div>
+												{% endfor %}
+
+												<ul class="reviews-pages">
+													<li class="active">1</li>
+													<li><a href="#">2</a></li>
+													<li><a href="#">3</a></li>
+													<li><a href="#"><i class="fa fa-caret-right"></i></a></li>
+												</ul>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<h4 class="text-uppercase">Məhsul haqqında rəy yazın.</h4>
+											<p>{{request.user.get_full_name}} olaraq rəy yazırsınız</p>
+											<form class="review-form" method="post" action="/add_comment/{{product.id}}/">
+												{% csrf_token %}
+												<div class="form-group">
+													<textarea class="input" name="good_sides" placeholder="Məhsulun müsbət tərəfləri" style="height: 50px"></textarea>
+												</div>
+												<div class="form-group">
+													<textarea class="input" name="bad_sides" placeholder="Məhsulun mənfi tərəfləri" style="height: 50px"></textarea>
+												</div>
+												<div class="form-group">
+													<textarea class="input" name="comment" placeholder="Məhsul haqqında ümumi rəy"></textarea>
+												</div>
+												<div class="form-group">
+													<div class="input-rating">
+														<strong class="text-uppercase">Ulduz: </strong>
+														<div class="stars">
+															<input type="radio" id="star5" name="rating" value="5" /><label for="star5"></label>
+															<input type="radio" id="star4" name="rating" value="4" /><label for="star4"></label>
+															<input type="radio" id="star3" name="rating" value="3" /><label for="star3"></label>
+															<input type="radio" id="star2" name="rating" value="2" /><label for="star2"></label>
+															<input type="radio" id="star1" name="rating" value="1" /><label for="star1"></label>
+														</div>
+													</div>
+												</div>
+												<button class="primary-btn">Göndər</button>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /Product Details -->
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /section -->
+
+	<!-- section -->
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+			{% if similar %}
+			<!-- row -->
+			<div class="row">
+				<!-- section title -->
+				<div class="col-md-12">
+					<div class="section-title">
+						<h2 class="title">Bənzər məhsullar</h2>
+					</div>
+				</div>
+				<!-- section title -->
+
+				{% for similar in similar %}
+				{% if similar.id != product.id %}
+				<!-- Product Single -->
+				<div class="col-md-3 col-sm-6 col-xs-6">
+					<div class="product product-single">
+						<div class="product-thumb">
+							<div class="product-label">
+								<span>New</span>
+								{% if similar.sale %}
+								<span class="sale">-{{similar.sale}}%</span>
+								{% endif %}
+							</div>
+							<a href="{% url 'product_detail' similar.category.slug similar.id %}"><button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Göz At</button></a>
+							<img src="{% if similar.main_image %}{{similar.main_image.url}}{% endif %}" alt="" style="width:260px; height: 300px;">
+						</div>
+						<div class="product-body">
+							{% if similar.sale %}
+							<h3 class="product-price">{{similar.discount|floatformat:2}} ₼ <del class="product-old-price">{{similar.price|floatformat:2}} ₼</del></h3>
+							{% else %}
+							<h3 class="product-price">{{similar.price|floatformat:2}} ₼</h3>
+							{% endif %}
+							<div class="product-rating">
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star-o empty"></i>
+							</div>
+							<h2 class="product-name"><a href="{% url 'product_detail' similar.category.slug similar.id %}">{{similar.name}}</a></h2>
+							<div class="product-btns">
+								<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
+								<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
+								<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Səbətə At</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /Product Single -->
+				{% endif %}
+				{% endfor %}
+			</div>
+			<!-- /row -->
+			{% endif %}
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /section -->
+
+
+{% endblock %}
