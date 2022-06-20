@@ -7,6 +7,9 @@ from mptt.models import MPTTModel, TreeForeignKey
 
 # Create your models here.
 
+class CustomUser(User):
+    user_phone = models.IntegerField()
+
 class Category(MPTTModel):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, unique=True)
@@ -59,6 +62,10 @@ class Product(models.Model):
                     break
         return dis
 
+    def sellerPhone(self):
+        for num in CustomUser.objects.filter(id=self.user.id).values_list('user_phone'):
+            for num in num:
+                return num
 
 
 class ProductImages(models.Model):

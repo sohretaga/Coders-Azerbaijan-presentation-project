@@ -1,7 +1,29 @@
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin, DraggableMPTTAdmin
-from .models import Category, Product, ProductImages, ProductComment, Checkout, Sold
+from .models import Category, Product, ProductImages, ProductComment, Checkout, Sold, CustomUser
 # Register your models here.
+
+class CustomUserAdmin(admin.ModelAdmin):
+    fieldsets = (
+        (None, {
+            'fields': ('username', 'password')
+        }),
+        ('Personal info', {
+            'fields': ('first_name', 'last_name', 'email')
+        }),
+        ('Permissions', {
+            'fields': (
+                'is_active', 'is_staff', 'is_superuser',
+                'groups', 'user_permissions'
+                )
+        }),
+        ('Important dates', {
+            'fields': ('last_login', 'date_joined')
+        }),
+        ('Additional info', {
+            'fields': ('user_phone',)
+        })
+    )
 
 
 class ImageInline(admin.TabularInline):

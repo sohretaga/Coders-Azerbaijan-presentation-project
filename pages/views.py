@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from product.models import Category, Product
+from product.models import Category, Product, CustomUser
 from pages.models import Contact
 
 
@@ -52,8 +52,9 @@ def userRegister(request):
         username = request.POST.get('username')
         email = request.POST.get('email')
         password = request.POST.get('password')
+        phone = request.POST.get('phone')
 
-        newUser = User.objects.create_user(first_name=first_name, last_name=last_name, email=email, username=username)
+        newUser = CustomUser.objects.create_user(first_name=first_name, last_name=last_name, email=email, username=username, user_phone=phone)
         newUser.set_password(password)
         newUser.save()
         messages.success(request, 'Qeydiyyat uğurla tamamlandı!')

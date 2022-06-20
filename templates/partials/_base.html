@@ -43,30 +43,6 @@
 
 	<!-- HEADER -->
 	<header>
-		<!-- top Header -->
-		<div id="top-header">
-			<div class="container">
-				<div class="pull-left">
-					<span>Welcome to Markon!</span>
-				</div>
-				<div class="pull-right">
-					<ul class="header-top-links">
-						<li><a href="#">Store</a></li>
-						<li><a href="#">Newsletter</a></li>
-						<li><a href="#">FAQ</a></li>
-						<li class="dropdown default-dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">AZ <i class="fa fa-caret-down"></i></a>
-							<ul class="custom-menu">
-								<li><a href="#">Azerbaycan (AZ)</a></li>
-								<li><a href="#">English (EN)</a></li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<!-- /top Header -->
-
 		<!-- header -->
 		<div id="header">
 			<div class="container">
@@ -240,14 +216,6 @@
 						<li><a href="{% url 'about' %}">Haqqımızda</a></li>
 						<li><a href="{% url 'contact' %}">Əlaqə</a></li>
 						<li><a {% if request.user.is_active %} href="{% url 'account' %}" {% else %} href="{% url 'login' %} {% endif %}">Profil</a></li>
-						<li class="dropdown default-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Pages <i class="fa fa-caret-down"></i></a>
-							<ul class="custom-menu">
-								<li><a href="index.html">Home</a></li>
-								<li><a href="products.html">Products</a></li>
-								<li><a href="product-page.html">Product Details</a></li>
-								<li><a href="checkout.html">Checkout</a></li>
-							</ul>
-						</li>
 					</ul>
 				</div>
 				<!-- menu nav -->

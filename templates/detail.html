@@ -114,7 +114,11 @@
 								{% else %}
 									<input type="hidden" id="productPrice-{{product.id}}" value="{{product.price}}">
 								{% endif %}
+								{% if product.used %}
+								<a href="https://wa.me/{{product.sellerPhone}}?text={{request.get_host}}{% url 'product_detail' product.category.slug product.id %}" target="_blank"><button class="primary-btn"><i class="fa fa-envelope"></i> Əlaqə</button></a>
+								{% else %}
 								<button class="primary-btn add-to-cart" type="button" id="addToCartBtn" data-index="{{product.id}}"><i class="fa fa-shopping-cart"></i> Səbətə at</button>
+								{% endif %}
 								<div class="pull-right">
 									<button class="main-btn icon-btn add-to-wishlist" id="addToWishlistBtn" data-index="{{product.id}}"><i class="fa fa-heart"></i></button>
 									<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
