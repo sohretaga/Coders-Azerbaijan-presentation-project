@@ -166,8 +166,11 @@
 									<div class="product-btns">
 										<button class="main-btn icon-btn add-to-wishlist" data-index="{{product.id}}"><i class="fa fa-heart"></i></button>
 										<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
-										<button class="primary-btn add-to-cart" id="addToCartBtn" data-index="{{product.id}}"><i class="fa fa-shopping-cart"></i> Səbətə at</button>
-
+										{% if product.used %}
+										<a href="https://wa.me/{{product.sellerPhone}}?text={{request.get_host}}{% url 'product_detail' product.category.slug product.id %}" target="_blank"><button class="primary-btn"><i class="fa fa-envelope"></i> Əlaqə</button></a>
+										{% else %}
+										<button class="primary-btn add-to-cart" type="button" id="addToCartBtn" data-index="{{product.id}}"><i class="fa fa-shopping-cart"></i> Səbətə at</button>
+										{% endif %}
 										<input type="hidden" id="productId-{{product.id}}" value="{{product.id}}">
 										<input type="hidden" id="productImage-{{product.id}}" value="{{product.main_image}}">
 										<input type="hidden" id="productSlug-{{product.id}}" value="{{product.category.slug}}">
@@ -243,8 +246,11 @@
 							<div class="product-btns">
 								<button class="main-btn icon-btn add-to-wishlist" data-index="{{new_product.id}}"><i class="fa fa-heart"></i></button>
 								<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
-								<button class="primary-btn add-to-cart" id="addToCartBtn" data-index="{{new_product.id}}"><i class="fa fa-shopping-cart"></i> Səbətə at</button>
-
+								{% if new_product.used %}
+								<a href="https://wa.me/{{new_product.sellerPhone}}?text={{request.get_host}}{% url 'product_detail' new_product.category.slug new_product.id %}" target="_blank"><button class="primary-btn"><i class="fa fa-envelope"></i> Əlaqə</button></a>
+								{% else %}
+								<button class="primary-btn add-to-cart" type="button" id="addToCartBtn" data-index="{{new_product.id}}"><i class="fa fa-shopping-cart"></i> Səbətə at</button>
+								{% endif %}
 								<input type="hidden" id="productId-{{new_product.id}}" value="{{new_product.id}}">
 								<input type="hidden" id="productImage-{{new_product.id}}" value="{{new_product.main_image}}">
 								<input type="hidden" id="productSlug-{{new_product.id}}" value="{{new_product.category.slug}}">
@@ -309,8 +315,11 @@
 							<div class="product-btns">
 								<button class="main-btn icon-btn add-to-wishlist" data-index="{{best_product.id}}"><i class="fa fa-heart"></i></button>
 								<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
-								<button class="primary-btn add-to-cart" id="addToCartBtn" data-index="{{best_product.id}}"><i class="fa fa-shopping-cart"></i> Səbətə at</button>
-
+								{% if best_product.used %}
+								<a href="https://wa.me/{{best_product.sellerPhone}}?text={{request.get_host}}{% url 'product_detail' best_product.category.slug best_product.id %}" target="_blank"><button class="primary-btn"><i class="fa fa-envelope"></i> Əlaqə</button></a>
+								{% else %}
+								<button class="primary-btn add-to-cart" type="button" id="addToCartBtn" data-index="{{product.id}}"><i class="fa fa-shopping-cart"></i> Səbətə at</button>
+								{% endif %}
 								<input type="hidden" id="productId-{{best_product.id}}" value="{{best_product.id}}">
 								<input type="hidden" id="productImage-{{best_product.id}}" value="{{best_product.main_image}}">
 								<input type="hidden" id="productSlug-{{best_product.id}}" value="{{best_product.category.slug}}">
@@ -318,7 +327,7 @@
 								<input type="hidden" id="productBrand-{{best_product.id}}" value="{{best_product.brand}}">
 								<input type="hidden" id="productSale-{{best_product.id}}" value="{{best_product.price}}">
 								<input type="hidden" id="productQty-{{best_product.id}}" value="1">
-								{% if product.sale %}
+								{% if best_product.sale %}
 									<input type="hidden" id="productPrice-{{best_product.id}}" value="{{best_product.discount}}">
 								{% else %}
 									<input type="hidden" id="productPrice-{{best_product.id}}" value="{{best_product.price}}">
@@ -375,8 +384,11 @@
 							<div class="product-btns">
 								<button class="main-btn icon-btn add-to-wishlist" data-index="{{product.id}}"><i class="fa fa-heart"></i></button>
 								<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
-								<button class="primary-btn add-to-cart" id="addToCartBtn" data-index="{{product.id}}"><i class="fa fa-shopping-cart"></i> Səbətə at</button>
-
+								{% if product.used %}
+								<a href="https://wa.me/{{product.sellerPhone}}?text={{request.get_host}}{% url 'product_detail' product.category.slug product.id %}" target="_blank"><button class="primary-btn"><i class="fa fa-envelope"></i> Əlaqə</button></a>
+								{% else %}
+								<button class="primary-btn add-to-cart" type="button" id="addToCartBtn" data-index="{{product.id}}"><i class="fa fa-shopping-cart"></i> Səbətə at</button>
+								{% endif %}
 								<input type="hidden" id="productId-{{product.id}}" value="{{product.id}}">
 								<input type="hidden" id="productImage-{{product.id}}" value="{{product.main_image}}">
 								<input type="hidden" id="productSlug-{{product.id}}" value="{{product.category.slug}}">
