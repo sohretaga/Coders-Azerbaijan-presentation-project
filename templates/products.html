@@ -69,7 +69,7 @@
 							<!-- Product Single -->
 							{% for product in used_products %}
 							{% if product.used %}
-							<div class="col-md-4 col-sm-4 col-xs-2">
+							<div class="col-md-4 col-sm-4 col-xs-2" style="width:290px; height: 460px;">
 								<div class="product product-single">
 									<div class="product-thumb">
 										<div class="product-label">
@@ -123,12 +123,13 @@
 							{% endfor %}
 							<!-- /Product Single -->
 							{% endif %}
+							
 
 							{% if 'products/cox-satanlar' in request.path %}
 							<!-- Product Single -->
 							{% for product in best_products %}
 							{% if product.available %}
-							<div class="col-md-4 col-sm-4 col-xs-2">
+							<div class="col-md-4 col-sm-4 col-xs-2" style="width:290px; height: 460px;">
 								<div class="product product-single">
 									<div class="product-thumb">
 										<div class="product-label">
@@ -183,11 +184,72 @@
 							<!-- /Product Single -->
 							{% endif %}
 
+
+							{% if 'products/butun-mehsullar' in request.path %}
+							<!-- Product Single -->
+							{% for product in all_products %}
+							{% if product.available %}
+							<div class="col-md-4 col-sm-4 col-xs-2" style="width:290px; height: 460px;">
+								<div class="product product-single">
+									<div class="product-thumb">
+										<div class="product-label">
+											<span>New</span>
+											{% if product.sale %}
+											<span class="sale">-{{product.sale}}%</span>
+											{% endif %}
+											{% if product.used %}
+											<span class="sale">İkinci Əl</span>
+											{% endif %}
+										</div>
+										<a href="{% url 'product_detail' product.category.slug product.id %}"><button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Göz At</button></a>
+										<img src="{{product.main_image.url}}" alt="" style="width:260px; height: 300px;">
+									</div>
+									<div class="product-body">
+										{% if product.sale %}
+										<h3 class="product-price">{{product.discount|floatformat:2}} ₼ <del class="product-old-price">{{product.price|floatformat:2}} ₼</del></h3>
+										{% else %}
+										<h3 class="product-price">{{product.price|floatformat:2}} ₼</h3>
+										{% endif %}
+										<div class="product-rating">
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star-o empty"></i>
+										</div>
+										<h2 class="product-name"><a href="{% url 'product_detail' product.category.slug product.id %}">{{product.name}}</a></h2>
+										<div class="product-btns">
+											<button class="main-btn icon-btn add-to-wishlist" data-index="{{product.id}}"><i class="fa fa-heart"></i></button>
+											<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
+											<button class="primary-btn add-to-cart" id="addToCartBtn" data-index="{{product.id}}"><i class="fa fa-shopping-cart"></i> Səbətə at</button>
+
+											<input type="hidden" id="productId-{{product.id}}" value="{{product.id}}">
+											<input type="hidden" id="productImage-{{product.id}}" value="{{product.main_image}}">
+											<input type="hidden" id="productSlug-{{product.id}}" value="{{product.category.slug}}">
+											<input type="hidden" id="productName-{{product.id}}" value="{{product.name}}">
+											<input type="hidden" id="productBrand-{{product.id}}" value="{{product.brand}}">
+											<input type="hidden" id="productSale-{{product.id}}" value="{{product.price}}">
+											<input type="hidden" id="productQty-{{product.id}}" value="1">
+											{% if product.sale %}
+												<input type="hidden" id="productPrice-{{product.id}}" value="{{product.discount}}">
+											{% else %}
+												<input type="hidden" id="productPrice-{{product.id}}" value="{{product.price}}">
+											{% endif %}
+										</div>
+									</div>
+								</div>
+							</div>
+							{% endif %}
+							{% endfor %}
+							<!-- /Product Single -->
+							{% endif %}
+
+
 							{% if 'products/endirimde-olanlar' in request.path %}
 							<!-- Product Single -->
 							{% for product in sale %}
 							{% if product.available %}
-							<div class="col-md-4 col-sm-4 col-xs-2">
+							<div class="col-md-4 col-sm-4 col-xs-2"  style="width:290px; height: 460px;">
 								<div class="product product-single">
 									<div class="product-thumb">
 										<div class="product-label">
@@ -245,7 +307,7 @@
 							<!-- Product Single -->
 							{% for product in products %}
 							{% if product.available and product.used == 0 %}
-							<div class="col-md-4 col-sm-4 col-xs-2">
+							<div class="col-md-4 col-sm-4 col-xs-2" style="width:290px; height: 460px;">
 								<div class="product product-single">
 									<div class="product-thumb">
 										<div class="product-label">
@@ -258,7 +320,7 @@
 											{% endif %}
 										</div>
 										<a href="{% url 'product_detail' product.category.slug product.id %}"><button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Göz At</button></a>
-										<img src="{{product.main_image.url}}" alt="" style="width:260px; height: 300px;">
+										<img src="{{product.main_image.url}}" alt="" >
 									</div>
 									<div class="product-body">
 										{% if product.sale %}

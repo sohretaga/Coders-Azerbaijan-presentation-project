@@ -18,11 +18,13 @@ def products(request, category_slug):
     best_products = Product.objects.all().filter(bestseller=True)
     sale = Product.objects.all().filter(sale__gte=0)
     used_products = Product.objects.all().filter(used=True)
+    all_products = Product.objects.all()
     context = {'category': category,
                'products': products,
                'best_products': best_products,
                'sale': sale,
                'used_products': used_products,
+               'all_products': all_products,
                }
     return render(request, 'products.html', context)
 

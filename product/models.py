@@ -118,3 +118,7 @@ class Sold(models.Model):
 
     def name(self) -> str:
         return self.checkout.fullname
+
+
+class Cupone(models.Model):
+    pass

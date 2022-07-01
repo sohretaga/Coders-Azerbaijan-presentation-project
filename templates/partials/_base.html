@@ -213,6 +213,7 @@
 						<li><a href="{% url 'index' %}">Ana Səhifə</a></li>
 						<li><a href="/products/endirimde-olanlar/">Endirimli məhsullar</a></li>
 						<li><a href="/products/cox-satanlar/">Çox satanlar</a></li>
+						<li><a href="/products/butun-mehsullar/">Bütün məhsullar</a></li>
 						<li><a href="{% url 'about' %}">Haqqımızda</a></li>
 						<li><a href="{% url 'contact' %}">Əlaqə</a></li>
 						<li><a {% if request.user.is_active %} href="{% url 'account' %}" {% else %} href="{% url 'login' %} {% endif %}">Profil</a></li>
