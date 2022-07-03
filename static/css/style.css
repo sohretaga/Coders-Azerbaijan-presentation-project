@@ -482,6 +482,14 @@ textarea.input {
   background-color: #30323A;
 }
 
+.fixed {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 999;
+}
+ 
+
 #navigation .container {
   position: relative;
 }
@@ -499,20 +507,6 @@ textarea.input {
   padding: 15px;
   display: block;
   text-transform: uppercase;
-  background: #F8694A;
-  color: #FFF;
-  font-weight: 700;
-}
-
-.category-nav .category-header>i {
-  float: right;
-  line-height: 20px;
-}
-
-.category-nav .category-list {
-  position: absolute;
-  width: 270px;
-  background-color: #FFF;
   border-left: 1px solid #DADADA;
   border-right: 1px solid #DADADA;
   border-bottom: 1px solid #DADADA;

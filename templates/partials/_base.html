@@ -350,6 +350,20 @@
 
 
 	<script type="text/javascript">
+
+		var height = $('#header').height();
+		$(window).scroll(function(){
+			if($(this).scrollTop() > height){
+				$('#navigation').addClass('fixed');
+				$('.category-nav.show-on-click .category-list.open').removeClass('open')
+			}else{
+				$('#navigation').removeClass('fixed');
+				//{% if '/' == request.path %}
+				$('.category-nav.show-on-click .category-list').addClass('open')
+				//{% endif %}
+			}
+		});
+
 		// ADD TO CART
 		$(document).on('click','.add-to-cart',function(){
 		var _vm=$(this);
