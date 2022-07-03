@@ -60,6 +60,18 @@ Table OF Contents
 	Typography
 \*----------------------------*/
 
+.top {
+
+  position:sticky;
+  bottom:50px;
+  margin-top:100vh;
+  float: right;
+  margin-right: 15px;
+
+  /* visual styling */
+  padding: 10px;
+}
+
 body {
   font-family: 'Hind', sans-serif;
   color: #4A4E5A;
