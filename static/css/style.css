@@ -60,18 +60,6 @@ Table OF Contents
 	Typography
 \*----------------------------*/
 
-.top {
-
-  position:sticky;
-  bottom:50px;
-  margin-top:100vh;
-  float: right;
-  margin-right: 15px;
-
-  /* visual styling */
-  padding: 10px;
-}
-
 body {
   font-family: 'Hind', sans-serif;
   color: #4A4E5A;
@@ -488,7 +476,6 @@ textarea.input {
   top: 0;
   z-index: 999;
 }
- 
 
 #navigation .container {
   position: relative;
@@ -507,6 +494,20 @@ textarea.input {
   padding: 15px;
   display: block;
   text-transform: uppercase;
+  background: #F8694A;
+  color: #FFF;
+  font-weight: 700;
+}
+
+.category-nav .category-header>i {
+  float: right;
+  line-height: 20px;
+}
+
+.category-nav .category-list {
+  position: absolute;
+  width: 270px;
+  background-color: #FFF;
   border-left: 1px solid #DADADA;
   border-right: 1px solid #DADADA;
   border-bottom: 1px solid #DADADA;
