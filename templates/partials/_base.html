@@ -97,7 +97,7 @@
 							<ul class="custom-menu">
 								<li><a {% if request.user.is_active %} href="{% url 'account' %}" {% else %} href="{% url 'login' %} {% endif %}"><i class="fa fa-user-o"></i> Profil</a></li>
 								<li><a href="#"><i class="fa fa-heart-o"></i> İstəklər</a></li>
-								<li><a href="#"><i class="fa fa-exchange"></i> Compare</a></li>
+								<li><a href="#"><i class="fa fa-exchange"></i> Müqayisə</a></li>
 								<li><a href="#"><i class="fa fa-check"></i> Checkout</a></li>
 								{% if request.user.is_active %}
 								<li><a href="{% url 'logout' %}"><i class="fa fa-lock"></i> Çıxış et</a></li>
@@ -269,9 +269,7 @@
 						<ul class="list-links">
 							<li><a href="#">My Account</a></li>
 							<li><a href="#">My Wishlist</a></li>
-							<li><a href="#">Compare</a></li>
-							<li><a href="#">Checkout</a></li>
-							<li><a href="#">Login</a></li>
+							<li><a href="#">Müqaysə</a></li>
 						</ul>
 					</div>
 				</div>

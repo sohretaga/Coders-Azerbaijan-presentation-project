@@ -121,4 +121,8 @@ class Sold(models.Model):
 
 
 class Cupone(models.Model):
-    pass
+    code = models.CharField(max_length=6)
+    when = models.DateTimeField()
+
+    def __str__(self) -> str:
+        return self.code

@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponseRedirect
 from django.template.loader import render_to_string
 
-from product.models import Category, Product, ProductImages, ProductComment, Checkout, Sold
+from product.models import Category, Product, ProductImages, ProductComment, Checkout, Sold, Cupone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages

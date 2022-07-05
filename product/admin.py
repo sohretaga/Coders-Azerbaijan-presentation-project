@@ -1,6 +1,6 @@
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin, DraggableMPTTAdmin
-from .models import Category, Product, ProductImages, ProductComment, Checkout, Sold, CustomUser
+from .models import Category, Product, ProductImages, ProductComment, Checkout, Sold, CustomUser, Cupone
 # Register your models here.
 
 class CustomUserAdmin(admin.ModelAdmin):
@@ -66,3 +66,4 @@ class SoldAdmin(admin.ModelAdmin):
 admin.site.register(ProductComment, CommentsAdmin)
 admin.site.register(Checkout, CheckoutAdmin)
 admin.site.register(Sold, SoldAdmin)
+admin.site.register(Cupone)
