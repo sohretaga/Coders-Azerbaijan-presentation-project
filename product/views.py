@@ -451,3 +451,12 @@ def payment(request):
         messages.success(request, 'Ödəniş tamamlandı')
         return redirect('cleancart')
     return render(request, 'checkout.html', context)
+
+def compare(request):
+    category = Category.objects.all()
+    products = Product.objects.all()[:4]
+    context = {
+        'category': category,
+        'products': products,
+    }
+    return render(request, 'compare.html', context)

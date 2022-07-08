@@ -1,0 +1,86 @@
+{% extends 'partials/_base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<!--Table Start  -->
+<div id="content" class="col-sm-12" style="margin-top: 50px;">
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <td colspan="15"><strong>Məhsulun məlumatları</strong></td>
+        </tr>
+      </thead>
+    <tbody>
+      <tr class="compare-name">
+        <td>Məhsul</td>
+        {% for product in products %}
+        <td>
+          <a href="https://www.ofisait.az/ofis_levazimati_2/markerler_3/marker_sanatsal_i_6700_60_ededli_2terefli_chantada">
+            <strong>Marker Sanatsal i-6700 60 ədədli 2/tərəfli (çantada)</strong>
+          </a>
+        </td>
+        {% endfor %}
+      </tr>
+      <tr class="compare-image">
+        <td>Şəkil</td>
+        {% for product in products %}
+        <td class="text-left"> 
+          <img src="https://www.ofisait.az/image/cache/catalog/products/_markers/a013994_marker_sanatsal_i_6700_60_ededli_2terefli_chantada-90x90.jpg" alt="Marker Sanatsal i-6700 60 ədədli 2/tərəfli (çantada)" title="Marker Sanatsal i-6700 60 ədədli 2/tərəfli (çantada)" class="img-thumbnail">
+        </td>
+        {% endfor %}
+      </tr>
+      <tr class="compare-price">
+        <td>Qiymət</td>
+        {% for product in products %}
+        <td class="">
+          <span class="currencies symbol_left azn"></span>45.00<span class="currencies symbol_right azn">m</span>
+        </td>
+        {% endfor %}
+      </tr>
+      <tr class="compare-model">
+        <td>Artikul</td>
+        {% for product in products %}
+        <td>a013994</td>
+        {% endfor %}
+      </tr>
+      <tr class="compare-manufacturer">
+        <td>Brend</td>
+        {% for product in products %}
+        <td>Oyal</td>
+        {% endfor %}
+      </tr>
+      <tr class="compare-availability">
+        <td>Mövcudluq</td>
+        {% for product in products %}
+        <td>Anbarda</td>
+        {% endfor %}
+      </tr>
+      <tr class="compare-rating">
+        <td>Reytinq</td>
+        {% for product in products %}
+        <td class="rating">
+          <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+          <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+          <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+          <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+          <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <br>
+          0 şərh.</td>
+          {% endfor %}
+        </tr>
+        <tr class="compare-summary">
+          <td>Açıqlama</td>
+          {% for product in products %}
+          <td class="description">-Oyalın canlı rənglərdən ibarət marker dəsti;-2 tərəflidir,həm incə,həm də qalın ucluğu vardır.-60 müxtəlif rəng çeşidindən ibarətdir.-Rahat daşınan çantası vasitəsi ilə daha göz oxşayır.-Rəssaml..</td>
+          {% endfor %}
+        </tr>
+    </tbody>
+</table>
+</div>
+</div>
+    
+  <!-- Table End -->
+
+{% endblock content %}

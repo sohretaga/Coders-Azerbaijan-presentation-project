@@ -30,7 +30,9 @@ urlpatterns = [
     path('wishlist/', productviews.wishlist, name='wishlist'),
     path('search/', productviews.search, name='search'),
     path('checkout/', productviews.checkout, name='checkout'),
-    path('payment/', productviews.payment, name='payment')
+    path('payment/', productviews.payment, name='payment'),
+
+    path('compare/', productviews.compare, name='compare'),
 
 ]
 if settings.DEBUG:
