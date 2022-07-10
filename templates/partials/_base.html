@@ -214,7 +214,6 @@
 						<li><a href="/products/endirimde-olanlar/">Endirimli məhsullar</a></li>
 						<li><a href="/products/cox-satanlar/">Çox satanlar</a></li>
 						<li><a href="/products/butun-mehsullar/">Bütün məhsullar</a></li>
-						<li><a href="{% url 'about' %}">Haqqımızda</a></li>
 						<li><a href="{% url 'contact' %}">Əlaqə</a></li>
 						<li><a {% if request.user.is_active %} href="{% url 'account' %}" {% else %} href="{% url 'login' %} {% endif %}">Profil</a></li>
 					</ul>
@@ -265,11 +264,11 @@
 				<!-- footer widget -->
 				<div class="col-md-3 col-sm-6 col-xs-6">
 					<div class="footer">
-						<h3 class="footer-header">My Account</h3>
+						<h3 class="footer-header">Hesabım</h3>
 						<ul class="list-links">
-							<li><a href="#">My Account</a></li>
-							<li><a href="#">My Wishlist</a></li>
-							<li><a href="#">Müqaysə</a></li>
+							<li><a href="{% url 'account' %}">Hesabım</a></li>
+							<li><a href="{% url 'wishlist' %}">İstəklər</a></li>
+							<li><a href="{% url 'compare' %}">Müqayisə</a></li>
 						</ul>
 					</div>
 				</div>
@@ -280,11 +279,10 @@
 				<!-- footer widget -->
 				<div class="col-md-3 col-sm-6 col-xs-6">
 					<div class="footer">
-						<h3 class="footer-header">Customer Service</h3>
+						<h3 class="footer-header">Müşdəri xidmətləri</h3>
 						<ul class="list-links">
-							<li><a href="#">About Us</a></li>
-							<li><a href="#">Shiping & Return</a></li>
-							<li><a href="#">Shiping Guide</a></li>
+							<li><a href="{% url 'about' %}">Haqqımızda</a></li>
+							<li><a href="#">Çatdırılma</a></li>
 							<li><a href="#">FAQ</a></li>
 						</ul>
 					</div>
@@ -294,13 +292,13 @@
 				<!-- footer subscribe -->
 				<div class="col-md-3 col-sm-6 col-xs-6">
 					<div class="footer">
-						<h3 class="footer-header">Stay Connected</h3>
+						<h3 class="footer-header">Güncəl qal</h3>
 						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor.</p>
 						<form>
 							<div class="form-group">
-								<input class="input" placeholder="Enter Email Address">
+								<input class="input" placeholder="Email adresinizi yazın">
 							</div>
-							<button class="primary-btn">Join Newslatter</button>
+							<button class="primary-btn">Bildiriş al</button>
 						</form>
 					</div>
 				</div>
@@ -314,7 +312,7 @@
 					<!-- footer copyright -->
 					<div class="footer-copyright">
 						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-						Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+						&copy; <script>document.write(new Date().getFullYear());</script> <i class="fa fa-heart-o" aria-hidden="true"></i><a href="https://coders.edu.az" target="_blank"> Coders Azerbaijan</a>
 						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 					</div>
 					<!-- /footer copyright -->
@@ -326,13 +324,21 @@
 	</footer>
 	{% if 'shopcart' not in request.path and 'about' not in request.path and 'account' not in request.path and 'contact' not in request.path %}
 	<div class="top">
+
+		<li class="header-cart dropdown default-dropdown" style="list-style-type:none;">
+			<a  aria-expanded="true" href="{% url 'wishlist' %}">
+			<div class="header-btns-icon" style="border: 1px solid gray; width: 40px; height: 40px; align-items: center; display: flex; margin-left: auto; margin-right: auto;">
+				<i class="fa fa-heart"></i>
+				<span class="qty">{{request.session.wishdata|length}}</span>
+			</div>
+			<br>
+
 		<li class="header-cart dropdown default-dropdown" style="list-style-type:none;">
 		<a  aria-expanded="true" href="{% url 'shopcart' %}">
 		<div class="header-btns-icon" style="border: 1px solid gray; width: 40px; height: 40px; align-items: center; display: flex; margin-left: auto; margin-right: auto;">
 			<i class="fa fa-shopping-cart"></i>
 			<span class="qty">{{request.session.cartdata|length}}</span>
 		</div>
-
 	</a>
 	</div>
 	{% endif %}
@@ -482,7 +488,7 @@
 			});
 		});
 
-		// Delete item from cart
+		// Delete item from wishlist
 		$(document).on('click','.delete-item',function(){
 			var _pId=$(this).attr('data-item');
 			var _vm=$(this);
@@ -499,7 +505,71 @@
 				success:function(res){
 					$(".qty").text(res.totalwish);
 					_vm.attr('disable',false);
-					$('#cartlist').html(res.data);
+					$('#wishlistlist').html(res.data);
+				}
+			});
+		});
+
+
+		// ADD TO COMPARE
+		$(document).on('click','.add-to-compare',function(){
+		var _vm=$(this);
+		var _index=_vm.attr('data-index');
+		var _productQty=$("#productQty-"+_index).val();
+		var _productId=$("#productId-"+_index).val();
+		var _productSlug=$("#productSlug-"+_index).val();
+		var _productImage=$("#productImage-"+_index).val();
+		var _productName=$("#productName-"+_index).val();
+		var _productPrice=$("#productPrice-"+_index).val()
+		var _productBrand=$("#productBrand-"+_index).val()
+		var _productSale=$("#productSale-"+_index).val()
+		var _productStock=$("#productStock-"+_index).val()
+		var _productDescription=$("#productDescription-"+_index).val()
+		//console.log(_productQyt, _productId, _productName, _productPrice);
+		//AJAX
+		$.ajax({
+				url:'/add-to-compare',
+				data:{
+					"id":_productId,
+					"qty":_productQty,
+					"slug":_productSlug,
+					"image":_productImage,
+					"name":_productName,
+					"price":_productPrice,
+					"brand":_productBrand,
+					"sale":_productSale,
+					"stock":_productStock,
+					"description":_productDescription,
+				},
+				dataType:"json",
+				beforeSend:function(){
+					_vm.attr('disable',true);
+				},
+				success:function(res){
+					$(".qty").text(res.totalwish);
+					_vm.attr('disable',false);
+				}
+			});
+		});
+
+		// Delete item from compare
+		$(document).on('click','.delete-item',function(){
+			var _pId=$(this).attr('data-item');
+			var _vm=$(this);
+		//AJAX
+		$.ajax({
+				url:'/delete-from-compare',
+				data:{
+					"id":_pId,
+				},
+				dataType:"json",
+				beforeSend:function(){
+					_vm.attr('disable',true);
+				},
+				success:function(res){
+					$(".qty").text(res.totalwish);
+					_vm.attr('disable',false);
+					$('#comparelist').html(res.data);
 				}
 			});
 		});

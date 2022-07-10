@@ -26,13 +26,16 @@ urlpatterns = [
     path('add-to-wishlist/', productviews.add_to_wishlist, name='add_to_wishlist'),
     path('delete-from-wishlist/', productviews.delete_wishlist_item, name='delete_wishlist_item'),
 
+    path('add-to-compare/', productviews.add_to_compare, name="add_to_compare"),
+    path('delete-from-compare/', productviews.delete_compare_item, name="delete_compare_item"),
+    path('clean-compare/', productviews.cleanCompare, name = 'cleancompare'),
+
     path('shopcart/', productviews.shopcart, name='shopcart'),
     path('wishlist/', productviews.wishlist, name='wishlist'),
+    path('compare/', productviews.compare, name='compare'),
     path('search/', productviews.search, name='search'),
     path('checkout/', productviews.checkout, name='checkout'),
     path('payment/', productviews.payment, name='payment'),
-
-    path('compare/', productviews.compare, name='compare'),
 
 ]
 if settings.DEBUG:

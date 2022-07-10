@@ -1,18 +1,9 @@
-{% extends 'partials/_base.html' %}
-{% load static %}
-
-
-{% block content %}
-
-<!--Table Start  -->
 <div id="content" class="col-sm-12" style="margin-top: 10px;">
   <div class="table-responsive">
     <table class="table table-bordered">
       <thead>
         <tr>
-          <td colspan="15"><strong>Məhsulun məlumatları</strong>
-            <a href="{% url 'cleancompare' %}"><button class="main-btn icon-btn delete-item" data-item="{{product_id}}" style="float: right;"><i class="fa fa-close"></i></button></a>
-          </td>
+          <td colspan="15"><strong>Məhsulun məlumatları</strong></td>
         </tr>
       </thead>
     <tbody>
@@ -21,8 +12,7 @@
         {% for product_id, item in compare_data.items %}
         <td>
           <a href="/products/{{item.slug}}/{{product_id}}" target="_blank" ><strong>{{item.name}} </strong></a>
-          <!-- <button class="main-btn icon-btn delete-item" data-item="{{product_id}}" style="float: right;"><i class="fa fa-close"></i></button> -->
-          </a>
+          <button class="main-btn icon-btn delete-item" data-item="{{product_id}}" style="float: right;"><i class="fa fa-close"></i></button>
         </td>
         {% endfor %}
       </tr>
@@ -65,14 +55,10 @@
         <tr class="compare-summary">
           <td>Açıqlama</td>
           {% for product_id, item in compare_data.items %}
-          <td class="description">{{item.description|truncatewords:100}} <a href="/products/{{item.slug}}/{{product_id}}" target="_blank"><strong> Daha çox oxu</strong></a></td>
+          <td class="description">{{item.description|truncatewords:100}} <a href="/products/{{item.slug}}/{{product_id}}" target="_blank"><strong>Daha çox oxu</strong></a></td>
           {% endfor %}
         </tr>
     </tbody>
 </table>
 </div>
 </div>
-    
-  <!-- Table End -->
-
-{% endblock content %}

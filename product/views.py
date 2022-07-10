@@ -1,4 +1,5 @@
 from os import stat
+from sre_constants import SUCCESS
 from unicodedata import category
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponseRedirect
@@ -366,6 +367,111 @@ def delete_wishlist_item(request):
 
 
 
+
+#Add to compare
+def add_to_compare(request):
+    compare_p = {}
+    compare_p[str(request.GET['id'])] = {
+        'id': request.GET['id'],
+        'name': request.GET['name'],
+        'image': request.GET['image'],
+        'slug': request.GET['slug'],
+        'qty': request.GET['qty'],
+        'price': request.GET['price'],
+        'brand': request.GET['brand'],
+        'sale': request.GET['sale'],
+        'stock': request.GET['stock'],
+        'description': request.GET['description'],
+    }
+    if 'comparedata' in request.session:
+        if str(request.GET['id']) in request.session['comparedata']:
+            compare_data = request.session['comparedata']
+            compare_data[str(request.GET['id'])]['qty'] = int(compare_p[str(request.GET['id'])]['qty'])
+            compare_data.update(compare_p)
+            request.session['comparedata'] = compare_data
+        else:
+            compare_data = request.session['comparedata']
+            compare_data.update(compare_p)
+            request.session['comparedata'] = compare_data
+
+    else:
+        request.session['comparedata'] = compare_p
+
+    totalprice = 0
+    for p_id, item in request.session['comparedata'].items():
+        totalprice += float(item['price'])*int(item['qty'])
+
+    return JsonResponse({'data': request.session['comparedata'], 'totalcompare': len(request.session['comparedata']), 'totalprice': totalprice})
+
+
+def compare(request):
+    # Check product id's and convert to str
+    products = Product.objects.filter(sale__gte=0).values_list('id')
+    id_list = list()
+    for id in products:
+        for id in id:
+            id_list.append(str(id))
+
+    try:
+        total_price = dict()
+        subtotal = 0
+        for values in request.session['comparedata'].items():
+            total_price.update({values[0]: int(values[1]['qty']) * float(values[1]['price'])})
+            subtotal += int(values[1]['qty'])*float(values[1]['price'])
+    except KeyError:
+        if request.user:
+            messages.warning(request, 'Müqayisə siyahısı boşdur!')
+            return redirect('index')
+        else:
+            return redirect('login')
+    category = Category.objects.all()
+    context = {
+        'products': id_list,
+        'total_price': total_price,
+        'subtotal': subtotal,
+        'category': category,
+        'compare_data': request.session['comparedata'],
+        'totalcompare': len(request.session['comparedata']),
+    }
+    return render(request, 'compare.html', context)
+
+
+def delete_compare_item(request):
+    category = Category.objects.all()
+    p_id = request.GET['id']
+    if 'comparedata' in request.session:
+        if p_id in request.session['comparedata']:
+            compare_data = request.session['comparedata']
+            del request.session['comparedata'][p_id]
+            request.session['comparedata'] = compare_data
+    subtotal = 0
+    total_price = dict()
+    for p_id,item in request.session['comparedata'].items():
+        subtotal += int(item['qty'])*float(item['price'])
+        total_price.update({p_id: int(item['qty']) * float(item['price'])})
+
+        # Check sale
+    products = Product.objects.filter(sale__gte=0).values_list('id')
+    id_list = list()
+    for id in products:
+        for id in id:
+            id_list.append(str(id))
+
+    t = render_to_string('compare-list.html', {'compare_data': request.session['comparedata'],
+                                            'totalcompare': len(request.session['comparedata']),
+                                            'subtotal': subtotal,
+                                            'total_price': total_price,
+                                            'products': id_list,
+                                            'category': category})
+    return JsonResponse({'data': t})
+
+def cleanCompare(request):
+    del request.session['comparedata']
+    messages.success(request, 'Müqayisə siyahısı təmizləmdi!')
+    return redirect('index')
+
+
+
 def search(request):
     category = Category.objects.all()
     keywords = request.GET.get('keywords')
@@ -452,11 +558,3 @@ def payment(request):
         return redirect('cleancart')
     return render(request, 'checkout.html', context)
 
-def compare(request):
-    category = Category.objects.all()
-    products = Product.objects.all()[:4]
-    context = {
-        'category': category,
-        'products': products,
-    }
-    return render(request, 'compare.html', context)

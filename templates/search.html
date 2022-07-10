@@ -68,7 +68,7 @@
 								<!-- Product Single -->
 								{% for product in products %}
 									{% if product.available and product.used == 0 %}
-										<div class="col-md-4 col-sm-4 col-xs-2">
+										<div class="col-md-4 col-sm-4 col-xs-2" style="width:290px; height: 460px;">
 										<div class="product product-single">
 											<div class="product-thumb">
 												<div class="product-label">
@@ -98,8 +98,8 @@
 												</div>
 												<h2 class="product-name"><a href="{% url 'product_detail' product.category.slug product.id %}">{{product.name}}</a></h2>
 												<div class="product-btns">
-													<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
-													<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
+													<button class="main-btn icon-btn add-to-wishlist" data-index="{{product.id}}"><i class="fa fa-heart"></i></button>
+													<button class="main-btn icon-btn add-to-compare" data-index="{{product.id}}"><i class="fa fa-exchange"></i></button>
 													<button class="primary-btn add-to-cart" id="addToCartBtn" data-index="{{product.id}}"><i class="fa fa-shopping-cart"></i> Səbətə at</button>
 
 													<input type="hidden" id="productId-{{product.id}}" value="{{product.id}}">
@@ -109,6 +109,8 @@
 													<input type="hidden" id="productBrand-{{product.id}}" value="{{product.brand}}">
 													<input type="hidden" id="productSale-{{product.id}}" value="{{product.price}}">
 													<input type="hidden" id="productQty-{{product.id}}" value="1">
+													<input type="hidden" id="productStock-{{product.id}}" value="{{product.stock}}">
+													<input type="hidden" id="productDescription-{{product.id}}" value="{{product.description}}">
 													{% if product.sale %}
 														<input type="hidden" id="productPrice-{{product.id}}" value="{{product.discount}}">
 													{% else %}

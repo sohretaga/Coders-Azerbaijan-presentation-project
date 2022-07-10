@@ -109,6 +109,8 @@
 								<input type="hidden" id="productName-{{product.id}}" value="{{product.name}}">
 								<input type="hidden" id="productBrand-{{product.id}}" value="{{product.brand}}">
 								<input type="hidden" id="productSale-{{product.id}}" value="{{product.price}}">
+								<input type="hidden" id="productStock-{{product.id}}" value="{{product.stock}}">
+								<input type="hidden" id="productDescription-{{product.id}}" value="{{product.description}}">
 								{% if product.sale %}
 									<input type="hidden" id="productPrice-{{product.id}}" value="{{product.discount}}">
 								{% else %}
@@ -121,7 +123,7 @@
 								{% endif %}
 								<div class="pull-right">
 									<button class="main-btn icon-btn add-to-wishlist" id="addToWishlistBtn" data-index="{{product.id}}"><i class="fa fa-heart"></i></button>
-									<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
+									<button class="main-btn icon-btn add-to-compare"><i class="fa fa-exchange"></i></button>
 									<button class="main-btn icon-btn"><i class="fa fa-share-alt"></i></button>
 								</div>
 							</div>
@@ -273,9 +275,24 @@
 							</div>
 							<h2 class="product-name"><a href="{% url 'product_detail' similar.category.slug similar.id %}">{{similar.name}}</a></h2>
 							<div class="product-btns">
-								<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
-								<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
-								<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Səbətə At</button>
+								<button class="main-btn icon-btn add-to-wishlist" data-index="{{similar.id}}"><i class="fa fa-heart"></i></button>
+								<button class="main-btn icon-btn add-to-compare" data-index="{{similar.id}}"><i class="fa fa-exchange"></i></button>
+								<button class="primary-btn add-to-cart" data-index="{{similar.id}}"><i class="fa fa-shopping-cart"></i> Səbətə At</button>
+								
+								<input type="hidden" id="productId-{{similar.id}}" value="{{similar.id}}">
+								<input type="hidden" id="productImage-{{similar.id}}" value="{{similar.main_image}}">
+								<input type="hidden" id="productSlug-{{similar.id}}" value="{{similar.category.slug}}">
+								<input type="hidden" id="productName-{{similar.id}}" value="{{similar.name}}">
+								<input type="hidden" id="productBrand-{{similar.id}}" value="{{similar.brand}}">
+								<input type="hidden" id="productSale-{{similar.id}}" value="{{similar.price}}">
+								<input type="hidden" id="productQty-{{similar.id}}" value="1">
+								<input type="hidden" id="productStock-{{similar.id}}" value="{{similar.stock}}">
+								<input type="hidden" id="productDescription-{{similar.id}}" value="{{similar.description}}">
+								{% if similar.sale %}
+									<input type="hidden" id="productPrice-{{similar.id}}" value="{{similar.discount}}">
+								{% else %}
+									<input type="hidden" id="productPrice-{{similar.id}}" value="{{similar.price}}">
+								{% endif %}
 							</div>
 						</div>
 					</div>
