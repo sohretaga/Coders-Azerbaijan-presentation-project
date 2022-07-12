@@ -1,9 +1,7 @@
-from datetime import date
-from hashlib import blake2b
-from statistics import mode
 from django.contrib.auth.models import User
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
+import uuid
 
 # Create your models here.
 
@@ -27,7 +25,14 @@ class Category(MPTTModel):
             k = k.parent
         return '>>'.join(full_path[::-1])
 
+class Brand(models.Model):
+    name = models.CharField(max_length=10)
+    image = models.ImageField(upload_to='brand')
+    slug = models.SlugField(max_length=15, unique=True)
+    date = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self) -> str:
+        return self.name
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
@@ -37,7 +42,8 @@ class Product(models.Model):
     keywords = models.CharField(max_length=50)
     description = models.CharField(max_length=1000)
     price = models.FloatField()
-    brand = models.CharField(max_length=50, default='Markon', verbose_name='Brand (Default: Markon)')
+    brand = models.CharField(max_length=50, null=True, blank=True, verbose_name='Brand (Default: Markon)')
+    #brand = models.OneToOneField(Brand, on_delete=models.DO_NOTHING, blank=True, null=True)
     sale = models.IntegerField(blank=True, null=True, verbose_name="Sale (%)")
     bestseller = models.BooleanField(default=False)
     amount = models.IntegerField(blank=True, null=True)

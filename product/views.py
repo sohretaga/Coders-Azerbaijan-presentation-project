@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponseRedirect
 from django.template.loader import render_to_string
 
-from product.models import Category, Product, ProductImages, ProductComment, Checkout, Sold, Cupone
+from product.models import Category, Product, ProductImages, ProductComment, Checkout, Sold, Brand
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -21,6 +21,7 @@ def products(request, category_slug):
     used_products = Product.objects.all().filter(used=True)
     all_products = Product.objects.all()
     sidebar = Product.objects.all().order_by('?')[:4]
+    brands = Brand.objects.all()
     context = {'category': category,
                'products': products,
                'best_products': best_products,
@@ -28,6 +29,7 @@ def products(request, category_slug):
                'used_products': used_products,
                'all_products': all_products,
                'sidebar': sidebar,
+               'brands': brands,
                }
     return render(request, 'products.html', context)
 
@@ -558,3 +560,17 @@ def payment(request):
         return redirect('cleancart')
     return render(request, 'checkout.html', context)
 
+
+def brandFilter(request, brand_slug):
+    category = Category.objects.all()
+    products = Product.objects.all().filter(brand=Brand.objects.get(slug=brand_slug))
+    sidebar = Product.objects.all().order_by('?')[:4]
+    brands = Brand.objects.all()
+    context = {
+        'category': category,
+        'products': products,
+        'sidebar':sidebar,
+        'brands':brands,
+    }
+
+    return render(request, 'products.html', context)
