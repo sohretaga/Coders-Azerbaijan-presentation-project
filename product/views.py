@@ -478,16 +478,23 @@ def search(request):
     category = Category.objects.all()
     keywords = request.GET.get('keywords')
     category_name = request.GET.get('category_name')
+    sidebar = Product.objects.all().order_by('?')[:4]
+    brands = Brand.objects.all()
+    context = {
+        'category': category,
+        'sidebar': sidebar,
+        'brands': brands,
+    }
     if category_name not in Category.objects.values_list('name', flat=True):
         if keywords:
             products = Product.objects.filter(name__contains=keywords)
-            return render(request, 'search.html', {'products': products, 'category': category})
+            return render(request, 'search.html', {'products': products, 'category': category, 'brands': brands, 'sidebar': sidebar})
     else:
         if keywords:
             products = Product.objects.filter(name__contains=keywords, category__name=category_name)
-            return render(request, 'search.html', {'products': products, 'category': category})
+            return render(request, 'search.html', {'products': products, 'category': category, 'brands': brands, 'sidebar': sidebar})
 
-    return render(request, 'products.html', {'category': category})
+    return render(request, 'products.html', {'category': category, 'brands': brands, 'sidebar': sidebar})
 
 @login_required(login_url='/login/')
 def checkout(request):
@@ -561,11 +568,12 @@ def payment(request):
     return render(request, 'checkout.html', context)
 
 
-def brandFilter(request, brand_slug):
+def filter(request, slug):
     category = Category.objects.all()
-    products = Product.objects.all().filter(brand=Brand.objects.get(slug=brand_slug))
     sidebar = Product.objects.all().order_by('?')[:4]
     brands = Brand.objects.all()
+    if Brand.objects.filter(slug=slug).values_list('slug')[0][0] in request.path:
+        products = Product.objects.all().filter(brand=Brand.objects.get(slug=slug))
     context = {
         'category': category,
         'products': products,
@@ -573,4 +581,18 @@ def brandFilter(request, brand_slug):
         'brands':brands,
     }
 
+    return render(request, 'products.html', context)
+
+def topFilter(request):
+    category = Category.objects.all()
+    filter = request.GET.get('filter')
+    print(filter)
+    print('helo')
+    if 'price' in request.path:
+        print('yes')
+
+    context = {
+        'category': category
+    }
+    
     return render(request, 'products.html', context)

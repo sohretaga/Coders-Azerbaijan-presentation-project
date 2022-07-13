@@ -1,0 +1,40 @@
+{% load static %}
+
+<div class="store-filter clearfix">
+  <div class="pull-left">
+    <div class="row-filter">
+      <a href="#"><i class="fa fa-th-large"></i></a>
+      <a href="#" class="active"><i class="fa fa-bars"></i></a>
+    </div>
+    <form method="GET" action="{% url 'topfilter' %}">
+      {% csrf_token %}
+      <div class="sort-filter">
+        <span class="text-uppercase">Filterlə:</span>
+          <select class="input" name="filter">
+              <option value="0">Seç</option>
+              <option value="price" name="price">Qiymətə görə</option>
+              <option value="rating" name="rating">Reytinqə görə</option>
+          </select>
+          <button type="submit" class="main-btn icon-btn"><i class="fa fa-arrow-down"></i></button>
+      </div>
+    </form>
+  </div>
+  <div class="pull-right">
+    <div class="page-filter">
+      <span class="text-uppercase">Gösdər:</span>
+      <select class="input">
+          <option value="0">10</option>
+          <option value="1">20</option>
+          <option value="2">30</option>
+        </select>
+    </div>
+    <ul class="store-pages">
+      <li><span class="text-uppercase">Səhifə:</span></li>
+      <li class="active">1</li>
+      <li><a href="#">2</a></li>
+      <li><a href="#">3</a></li>
+      <li><a href="#"><i class="fa fa-caret-right"></i></a></li>
+    </ul>
+  </div>
+</div>
+
