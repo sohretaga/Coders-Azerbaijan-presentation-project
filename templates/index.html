@@ -170,6 +170,9 @@
 										{% if product.sale %}
 										<span class="sale">-{{product.sale}}%</span>
 										{% endif %}
+										{% if product.used %}
+										<span class="sale">İkinci Əl</span>
+										{% endif %}
 									</div>
 									<a href="{% url 'product_detail' product.category.slug product.id %}"><button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Göz at</button></a>
 									<img src="{{product.main_image.url}}" alt="" style="width:260px; height: 300px;">
@@ -251,6 +254,9 @@
 								<span>New</span>
 								{% if new_product.sale %}
 								<span class="sale">-{{new_product.sale}}%</span>
+								{% endif %}
+								{% if new_product.used %}
+								<span class="sale">İkinci Əl</span>
 								{% endif %}
 							</div>
 							<a href="{% url 'product_detail' new_product.category.slug new_product.id %}"><button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Göz At</button></a>
@@ -368,6 +374,9 @@
 								{% if best_product.sale %}
 								<span class="sale">-{{best_product.sale}}%</span>
 								{% endif %}
+								{% if best_product.used %}
+								<span class="sale">İkinci Əl</span>
+								{% endif %}
 							</div>
 							<a href="{% url 'product_detail' best_product.category.slug best_product.id %}"><button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Göz At</button></a>
 							<img src="{{best_product.main_image.url}}" alt="" style="width:260px; height: 300px;">
@@ -438,6 +447,9 @@
 							<div class="product-label">
 								{% if product.sale %}
 								<span class="sale">-{{product.sale}}%</span>
+								{% endif %}
+								{% if product.used %}
+								<span class="sale">İkinci Əl</span>
 								{% endif %}
 							</div>
 							<a href="{% url 'product_detail' product.category.slug product.id %}"><button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Göz At</button></a>
