@@ -41,7 +41,7 @@
 						<button class="primary-btn">Filter</button>-->
 					</div>
 					<!-- aside widget -->
-					<form method="post" action="{% url 'between_price' %}">
+					<form method="post">
 						{% csrf_token %}
 						<p style="float: left; margin-top: 10px; margin-right: 3px;">Min </p><input class="input" name="slider_from" type="number" value="1" min="1" style="width: 70px; float: left;">
 						<p style="float: left; margin-top: 10px; margin-right: 3px;">Max </p><input class="input" name="slider_to" type="number" value="100" max="100" style="width: 70px;"> AZN

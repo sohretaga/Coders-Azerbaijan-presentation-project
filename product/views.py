@@ -14,14 +14,27 @@ from django.contrib import messages
 # Create your views here.
 
 def products(request, category_slug):
+    filter_from = request.POST.get('slider_from')
+    filter_to = request.POST.get('slider_to')
+
     category = Category.objects.all()
-    products = Product.objects.all().filter(category__slug=category_slug)
-    best_products = Product.objects.all().filter(bestseller=True)
-    sale = Product.objects.all().filter(sale__gte=0)
-    used_products = Product.objects.all().filter(used=True)
-    all_products = Product.objects.all()
     sidebar = Product.objects.all().order_by('?')[:4]
     brands = Brand.objects.all()
+
+    if filter_from:
+        products = Product.objects.filter(category__slug=category_slug, price__gte = filter_from, price__lte = filter_to).order_by('-price')
+        all_products = Product.objects.filter(price__gte = filter_from, price__lte = filter_to).order_by('-price')
+        best_products = Product.objects.all().filter(bestseller=True, price__gte = filter_from, price__lte = filter_to)
+        sale = Product.objects.all().filter(sale__gte=0, price__gte = filter_from, price__lte = filter_to)
+        used_products = Product.objects.all().filter(used=True, price__gte = filter_from, price__lte = filter_to)
+        messages.success(request, f'Məhsullar {filter_from} - {filter_to} AZN arası filterləndi')
+    else:
+        products = Product.objects.all().filter(category__slug=category_slug)
+        all_products = Product.objects.all()
+        best_products = Product.objects.all().filter(bestseller=True)
+        sale = Product.objects.all().filter(sale__gte=0)
+        used_products = Product.objects.all().filter(used=True)
+        
     context = {'category': category,
                'products': products,
                'best_products': best_products,
@@ -610,8 +623,6 @@ def betweenPrice(request):
     brands = Brand.objects.all()
     filter_from = request.POST.get('slider_from')
     filter_to = request.POST.get('slider_to')
-    print(filter_from, filter_to)
-    print('hello')
 
     products = Product.objects.filter(price__gte = filter_from, price__lte = filter_to).order_by('-price')
 

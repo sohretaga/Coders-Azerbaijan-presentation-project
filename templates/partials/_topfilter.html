@@ -38,3 +38,8 @@
   </div>
 </div>
 
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }}" role="alert" style="text-align: center;">
+  <strong>{{ message }}</strong>
+</div>
+{% endfor %}
