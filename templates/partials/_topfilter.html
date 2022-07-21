@@ -6,14 +6,15 @@
       <a href="#"><i class="fa fa-th-large"></i></a>
       <a href="#" class="active"><i class="fa fa-bars"></i></a>
     </div>
-    <form method="GET" action="{% url 'topfilter' %}">
+    <form method="post">
       {% csrf_token %}
       <div class="sort-filter">
-        <span class="text-uppercase">Filterlə:</span>
-          <select class="input" name="filter">
-              <option value="0">Seç</option>
-              <option value="price" name="price">Qiymətə görə</option>
-              <option value="rating" name="rating">Reytinqə görə</option>
+        <span class="text-uppercase">Sırala:</span>
+          <select class="input" name="topfilter">
+              <option>Seç</option>
+              <option value="-price">Qiymətə görə (Ç - A)</option>
+              <option value="price">Qiymətə görə (A - Ç)</option>
+              <option value="rating">Reytinqə görə</option>
           </select>
           <button type="submit" class="main-btn icon-btn"><i class="fa fa-arrow-down"></i></button>
       </div>

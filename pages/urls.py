@@ -18,8 +18,8 @@ urlpatterns = [
     path('delete/<int:id>/', productviews.delete_product, name='delete_product'),
     path('add_comment/<int:id>/', productviews.addcomment, name='add_comment'),
     path('products/filter/<slug:slug>/', productviews.filter, name='brand'),
-    path('products/topfilter/', productviews.topFilter, name='topfilter'),
-    path('products/price/between/', productviews.betweenPrice, name='between_price'),
+    #path('products/topfilter/', productviews.topFilter, name='topfilter'),
+    #path('products/price/between/', productviews.betweenPrice, name='between_price'),
 
     path('add-to-cart/', productviews.add_to_cart, name='add_to_cart'),
     path('delete-from-cart/', productviews.delete_cart_item, name='delete_cart_item'),

@@ -1,6 +1,3 @@
-from os import stat
-from sre_constants import SUCCESS
-from unicodedata import category
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponseRedirect
 from django.template.loader import render_to_string
@@ -17,23 +14,39 @@ def products(request, category_slug):
     filter_from = request.POST.get('slider_from')
     filter_to = request.POST.get('slider_to')
 
+    sort = request.POST.get('topfilter')
+    print(sort)
+
     category = Category.objects.all()
     sidebar = Product.objects.all().order_by('?')[:4]
     brands = Brand.objects.all()
 
     if filter_from:
-        products = Product.objects.filter(category__slug=category_slug, price__gte = filter_from, price__lte = filter_to).order_by('-price')
-        all_products = Product.objects.filter(price__gte = filter_from, price__lte = filter_to).order_by('-price')
+        products = Product.objects.filter(category__slug=category_slug, price__gte = filter_from, price__lte = filter_to)
+        all_products = Product.objects.all().filter(price__gte = filter_from, price__lte = filter_to)
         best_products = Product.objects.all().filter(bestseller=True, price__gte = filter_from, price__lte = filter_to)
         sale = Product.objects.all().filter(sale__gte=0, price__gte = filter_from, price__lte = filter_to)
         used_products = Product.objects.all().filter(used=True, price__gte = filter_from, price__lte = filter_to)
         messages.success(request, f'Məhsullar {filter_from} - {filter_to} AZN arası filterləndi')
     else:
-        products = Product.objects.all().filter(category__slug=category_slug)
-        all_products = Product.objects.all()
-        best_products = Product.objects.all().filter(bestseller=True)
-        sale = Product.objects.all().filter(sale__gte=0)
-        used_products = Product.objects.all().filter(used=True)
+        if sort:
+            products = Product.objects.all().filter(category__slug=category_slug).order_by(f'{sort}')
+            all_products = Product.objects.all().order_by(f'{sort}')
+            best_products = Product.objects.all().filter(bestseller=True).order_by(f'{sort}')
+            sale = Product.objects.all().filter(sale__gte=0).order_by(f'{sort}')
+            used_products = Product.objects.all().filter(used=True).order_by(f'{sort}')
+            
+            if '-' in sort:
+                messages.success(request, 'Məhsullar çoxdan aza qiymətlə sıralandı')
+            else:
+                messages.success(request, 'Məhsullar azadan çoxa qiymətlə sıralandı')
+
+        else:
+            products = Product.objects.all().filter(category__slug=category_slug)
+            all_products = Product.objects.all()
+            best_products = Product.objects.all().filter(bestseller=True)
+            sale = Product.objects.all().filter(sale__gte=0)
+            used_products = Product.objects.all().filter(used=True)
         
     context = {'category': category,
                'products': products,
@@ -600,36 +613,4 @@ def filter(request, slug):
         'brands':brands,
     }
 
-    return render(request, 'products.html', context)
-
-def topFilter(request):
-    category = Category.objects.all()
-    filter = request.GET.get('filter')
-    print(filter)
-    print('helo')
-    if 'price' in request.path:
-        print('yes')
-
-    context = {
-        'category': category
-    }
-    
-    return render(request, 'products.html', context)
-
-
-def betweenPrice(request):
-    category = Category.objects.all()
-    sidebar = Product.objects.all().order_by('?')[:4]
-    brands = Brand.objects.all()
-    filter_from = request.POST.get('slider_from')
-    filter_to = request.POST.get('slider_to')
-
-    products = Product.objects.filter(price__gte = filter_from, price__lte = filter_to).order_by('-price')
-
-    context = {
-        'products': products,
-        'category': category,
-        'sidebar': sidebar,
-        'brands': brands,
-    }
     return render(request, 'products.html', context)
