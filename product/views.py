@@ -572,7 +572,13 @@ def filter(request, slug):
     category = Category.objects.all()
     sidebar = Product.objects.all().order_by('?')[:4]
     brands = Brand.objects.all()
-    if Brand.objects.filter(slug=slug).values_list('slug')[0][0] in request.path:
+    if 'price' in request.path:
+        products = Product.objects.all().order_by('price')
+    elif 'star' in request.path:
+        for product in Product.objects.all():
+            for rating in ProductComment.objects.filter(product_id=product.id).values_list('rating'):
+                products = Product.objects.filter()
+    elif Brand.objects.filter(slug=slug).values_list('slug')[0][0] in request.path:
         products = Product.objects.all().filter(brand=Brand.objects.get(slug=slug))
     context = {
         'category': category,
@@ -595,4 +601,24 @@ def topFilter(request):
         'category': category
     }
     
+    return render(request, 'products.html', context)
+
+
+def betweenPrice(request):
+    category = Category.objects.all()
+    sidebar = Product.objects.all().order_by('?')[:4]
+    brands = Brand.objects.all()
+    filter_from = request.POST.get('slider_from')
+    filter_to = request.POST.get('slider_to')
+    print(filter_from, filter_to)
+    print('hello')
+
+    products = Product.objects.filter(price__gte = filter_from, price__lte = filter_to).order_by('-price')
+
+    context = {
+        'products': products,
+        'category': category,
+        'sidebar': sidebar,
+        'brands': brands,
+    }
     return render(request, 'products.html', context)

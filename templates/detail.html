@@ -256,6 +256,9 @@
 								{% if similar.sale %}
 								<span class="sale">-{{similar.sale}}%</span>
 								{% endif %}
+								{% if similar.used %}
+								<span class="sale">İkinci Əl</span>
+								{% endif %}
 							</div>
 							<a href="{% url 'product_detail' similar.category.slug similar.id %}"><button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Göz At</button></a>
 							<img src="{% if similar.main_image %}{{similar.main_image.url}}{% endif %}" alt="" style="width:260px; height: 300px;">
@@ -277,7 +280,11 @@
 							<div class="product-btns">
 								<button class="main-btn icon-btn add-to-wishlist" data-index="{{similar.id}}"><i class="fa fa-heart"></i></button>
 								<button class="main-btn icon-btn add-to-compare" data-index="{{similar.id}}"><i class="fa fa-exchange"></i></button>
-								<button class="primary-btn add-to-cart" data-index="{{similar.id}}"><i class="fa fa-shopping-cart"></i> Səbətə At</button>
+								{% if similar.used %}
+								<a href="https://wa.me/{{similar.sellerPhone}}?text={{request.get_host}}{% url 'product_detail' similar.category.slug similar.id %}" target="_blank"><button class="primary-btn"><i class="fa fa-envelope"></i> Əlaqə</button></a>
+								{% else %}
+								<button class="primary-btn add-to-cart" type="button" id="addToCartBtn" data-index="{{product.id}}"><i class="fa fa-shopping-cart"></i> Səbətə at</button>
+								{% endif %}
 								
 								<input type="hidden" id="productId-{{similar.id}}" value="{{similar.id}}">
 								<input type="hidden" id="productImage-{{similar.id}}" value="{{similar.main_image}}">
