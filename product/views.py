@@ -646,9 +646,7 @@ def filter(request, slug):
     if 'price' in request.path:
         products = Product.objects.all().order_by('price')
     elif 'star' in request.path:
-        for product in Product.objects.all():
-            for rating in ProductComment.objects.filter(product_id=product.id).values_list('rating'):
-                products = Product.objects.filter()
+        products = Product.objects.filter(star = 5)
     elif Brand.objects.filter(slug=slug).values_list('slug')[0][0] in request.path:
         products = Product.objects.all().filter(brand=Brand.objects.get(slug=slug))
     context = {
