@@ -1,3 +1,4 @@
+from ast import keyword
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponseRedirect
 from django.template.loader import render_to_string
@@ -37,9 +38,15 @@ def products(request, category_slug):
             used_products = Product.objects.all().filter(used=True).order_by(f'{sort}')
             
             if '-' in sort:
-                messages.success(request, 'Məhsullar çoxdan aza qiymətlə sıralandı')
+                if 'price' in sort:
+                    messages.success(request, 'Məhsullar çoxdan aza qiymətlə sıralandı')
+                else:
+                    messages.success(request, 'Məhsullar çoxdan aza reytinqlə sıralandı')
             else:
-                messages.success(request, 'Məhsullar azadan çoxa qiymətlə sıralandı')
+                if 'price' in sort:
+                    messages.success(request, 'Məhsullar azadan çoxa qiymətlə sıralandı')
+                else:
+                    messages.success(request, 'Məhsullar azadan çoxa reytinqlə sıralandı')
 
         else:
             products = Product.objects.all().filter(category__slug=category_slug)
@@ -143,6 +150,7 @@ def addcomment(request, id):
     url = request.META.get('HTTP_REFERER')
     category = Category.objects.all()
     product = get_object_or_404(Product, id=id)
+
     if request.method == 'POST':
         good_sides = request.POST.get('good_sides')
         bad_sides = request.POST.get('bad_sides')
@@ -159,6 +167,43 @@ def addcomment(request, id):
                                         bad_sides=bad_sides,
                                         comment=comment)
             newComment.save()
+
+            ratings = ProductComment.objects.filter(product_id=id).values_list('rating')
+            li = list()
+            product_rating = 0
+            for r in ratings:
+                for i in r:
+                    li.append(i)
+            total = 0
+            if len(li) > 0:
+                for rating in li:
+                    total = rating+total
+                product_rating = total/len(li)
+                if product_rating > int(product_rating):
+                    product_rating += 1
+            product_rating = int(product_rating)
+
+            updateProductStar = Product(id = id,
+                                        star=product_rating,
+                                        category=product.category,
+                                        name = product.name,
+                                        available = product.available,
+                                        date_created = product.date_created,
+                                        description = product.description,
+                                        detail = product.detail,
+                                        keywords = product.keywords,
+                                        price = product.price,
+                                        amount = product.amount,
+                                        bestseller = product.bestseller,
+                                        main_image = product.main_image,
+                                        stock = product.stock,
+                                        brand = product.brand,
+                                        sale = product.sale,
+                                        used = product.used,
+                                        user = product.user,
+                                        )
+
+            updateProductStar.save()
             messages.success(request, 'Rəyiniz göndərildi')
             #return render(request, 'detail.html', {'category': category, 'product': product})
             return HttpResponseRedirect(url)

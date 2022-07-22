@@ -43,7 +43,7 @@ class Product(models.Model):
     description = models.CharField(max_length=1000)
     price = models.FloatField()
     brand = models.CharField(max_length=50, null=True, blank=True, verbose_name='Brand (Default: Markon)')
-    #brand = models.OneToOneField(Brand, on_delete=models.DO_NOTHING, blank=True, null=True)
+    star = models.IntegerField(default=0)
     sale = models.IntegerField(blank=True, null=True, verbose_name="Sale (%)")
     bestseller = models.BooleanField(default=False)
     amount = models.IntegerField(blank=True, null=True)
