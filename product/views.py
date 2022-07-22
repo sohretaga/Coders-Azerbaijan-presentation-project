@@ -16,7 +16,6 @@ def products(request, category_slug):
     filter_to = request.POST.get('slider_to')
 
     sort = request.POST.get('topfilter')
-    print(sort)
 
     category = Category.objects.all()
     sidebar = Product.objects.all().order_by('?')[:4]
