@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from product.models import Category, Product, CustomUser
 from pages.models import Contact
+from django.db.utils import IntegrityError
 
 
 # Create your views here.
@@ -53,12 +54,16 @@ def userRegister(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         phone = request.POST.get('phone')
-
-        newUser = CustomUser.objects.create_user(first_name=first_name, last_name=last_name, email=email, username=username, user_phone=phone)
-        newUser.set_password(password)
-        newUser.save()
-        messages.success(request, 'Qeydiyyat uğurla tamamlandı!')
-        return render(request, 'forms/register.html', {'category': category})
+        
+        try:
+            newUser = CustomUser.objects.create_user(first_name=first_name, last_name=last_name, email=email, username=username, user_phone=phone)
+            newUser.set_password(password)
+            newUser.save()
+            messages.success(request, 'Qeydiyyat uğurla tamamlandı!')
+            return render(request, 'forms/register.html', {'category': category})
+        except IntegrityError:
+            messages.warning(request, 'Qeydiyyat uğursuz oldu')
+            return render(request, 'forms/register.html', {'category': category})
     return render(request, 'forms/register.html', {'category': category})
 
 def userLogin(request):

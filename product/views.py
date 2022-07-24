@@ -1,4 +1,3 @@
-from ast import keyword
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponseRedirect
 from django.template.loader import render_to_string
@@ -7,6 +6,7 @@ from product.models import Category, Product, ProductImages, ProductComment, Che
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -53,6 +53,7 @@ def products(request, category_slug):
             best_products = Product.objects.all().filter(bestseller=True)
             sale = Product.objects.all().filter(sale__gte=0)
             used_products = Product.objects.all().filter(used=True)
+    
         
     context = {'category': category,
                'products': products,
@@ -642,12 +643,67 @@ def filter(request, slug):
     category = Category.objects.all()
     sidebar = Product.objects.all().order_by('?')[:4]
     brands = Brand.objects.all()
+    
+    filter_from = request.POST.get('slider_from')
+    filter_to = request.POST.get('slider_to')
+    sort = request.POST.get('topfilter')
+
     if 'price' in request.path:
-        products = Product.objects.all().order_by('price')
+        if filter_from:
+            products = Product.objects.filter(price__gte = filter_from, price__lte = filter_to).order_by('price')
+            messages.success(request, f'Məhsullar {filter_from} - {filter_to} AZN arası filterləndi')
+        else:
+            if sort:
+                products = Product.objects.all().order_by(f'{sort}')
+                if '-' in sort:
+                    if 'price' in sort:
+                        messages.success(request, 'Məhsullar çoxdan aza qiymətlə sıralandı')
+                    else:
+                        messages.success(request, 'Məhsullar çoxdan aza reytinqlə sıralandı')
+                else:
+                    if 'price' in sort:
+                        messages.success(request, 'Məhsullar azadan çoxa qiymətlə sıralandı')
+                    else:
+                        messages.success(request, 'Məhsullar azadan çoxa reytinqlə sıralandı')
+            else:
+                products = Product.objects.all().order_by('price')
     elif 'star' in request.path:
-        products = Product.objects.filter(star = 5)
+        if filter_from:
+            products = Product.objects.filter(star = 5, price__gte = filter_from, price__lte = filter_to).order_by('price')
+            messages.success(request, f'Məhsullar {filter_from} - {filter_to} AZN arası filterləndi')
+        else:
+            if sort:
+                products = Product.objects.filter(star = 5).order_by(f'{sort}')
+                if '-' in sort:
+                    if 'price' in sort:
+                        messages.success(request, 'Məhsullar çoxdan aza qiymətlə sıralandı')
+                    else:
+                        messages.success(request, 'Məhsullar çoxdan aza reytinqlə sıralandı')
+                else:
+                    if 'price' in sort:
+                        messages.success(request, 'Məhsullar azadan çoxa qiymətlə sıralandı')
+                    else:
+                        messages.success(request, 'Məhsullar azadan çoxa reytinqlə sıralandı')
+            else:
+                products = Product.objects.filter(star = 5)
     elif Brand.objects.filter(slug=slug).values_list('slug')[0][0] in request.path:
-        products = Product.objects.all().filter(brand=Brand.objects.get(slug=slug))
+        if filter_from:
+            products = Product.objects.all().filter(brand=Brand.objects.get(slug=slug), price__gte = filter_from, price__lte = filter_to)
+        else:
+            if sort:
+                products = Product.objects.all().filter(brand=Brand.objects.get(slug=slug)).order_by(f'{sort}')
+                if '-' in sort:
+                    if 'price' in sort:
+                        messages.success(request, 'Məhsullar çoxdan aza qiymətlə sıralandı')
+                    else:
+                        messages.success(request, 'Məhsullar çoxdan aza reytinqlə sıralandı')
+                else:
+                    if 'price' in sort:
+                        messages.success(request, 'Məhsullar azadan çoxa qiymətlə sıralandı')
+                    else:
+                        messages.success(request, 'Məhsullar azadan çoxa reytinqlə sıralandı')
+            else:
+                products = Product.objects.all().filter(brand=Brand.objects.get(slug=slug))
     context = {
         'category': category,
         'products': products,

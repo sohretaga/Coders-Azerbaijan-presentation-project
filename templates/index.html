@@ -373,7 +373,7 @@
 								{% if best_product.used %}
 								<a href="https://wa.me/{{best_product.sellerPhone}}?text={{request.get_host}}{% url 'product_detail' best_product.category.slug best_product.id %}" target="_blank"><button class="primary-btn"><i class="fa fa-envelope"></i> Əlaqə</button></a>
 								{% else %}
-								<button class="primary-btn add-to-cart" type="button" id="addToCartBtn" data-index="{{product.id}}"><i class="fa fa-shopping-cart"></i> Səbətə at</button>
+								<button class="primary-btn add-to-cart" type="button" id="addToCartBtn" data-index="{{best_product.id}}"><i class="fa fa-shopping-cart"></i> Səbətə at</button>
 								{% endif %}
 								<input type="hidden" id="productId-{{best_product.id}}" value="{{best_product.id}}">
 								<input type="hidden" id="productImage-{{best_product.id}}" value="{{best_product.main_image}}">

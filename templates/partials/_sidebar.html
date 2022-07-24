@@ -122,11 +122,11 @@
 								<h3 class="product-price">{{product.price|floatformat:2}} ₼</h3>
 								{% endif %}
 								<div class="product-rating">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star-o empty"></i>
+									<i class="fa fa-star{% if product.star < 1 %}-o empty{% endif %}"></i>
+									<i class="fa fa-star{% if product.star < 2 %}-o empty{% endif %}"></i>
+									<i class="fa fa-star{% if product.star < 3 %}-o empty{% endif %}"></i>
+									<i class="fa fa-star{% if product.star < 4 %}-o empty{% endif %}"></i>
+									<i class="fa fa-star{% if product.star < 5 %}-o empty{% endif %}"></i>
 								</div>
 							</div>
 						</div>
