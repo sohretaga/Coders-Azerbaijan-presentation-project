@@ -7,14 +7,20 @@ channels==3.0.4
 constantly==15.1.0
 cryptography==37.0.2
 daphne==3.0.2
+distlib==0.3.4
 dj-config-url==0.1.1
 Django==4.0.4
+django-autoslug==1.9.8
+django-autoslug-field==0.2.3
+django-ckeditor==6.4.2
 django-js-asset==2.0.0
 django-mptt==0.13.4
+filelock==3.7.1
 hyperlink==21.0.0
 idna==3.3
 incremental==21.3.0
 Pillow==9.1.0
+platformdirs==2.5.2
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.21
@@ -27,4 +33,5 @@ twisted-iocpsupport==1.0.2
 txaio==22.2.1
 typing_extensions==4.2.0
 tzdata==2022.1
+virtualenv==20.15.1
 zope.interface==5.4.0
